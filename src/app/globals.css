@@ -3,17 +3,27 @@
   padding: 0;
   margin: 0;
   font-size: inherit;
+  transition: 0.25s ease all;
 }
 
 :root {
   --primary-color: #1877f2;
   --secondary-color: #42b72a;
+  --light-gray: #f0f2f5;
+  --gray: #e4e6eb;
+  --dark-gray: #d7d9df;
+  --z-index-popup: 100;
+
 }
 
-html,
+/* html,
 body {
   max-width: 100vw;
   overflow-x: hidden;
+} */
+
+html {
+  overflow-y: scroll;
 }
 
 a {
@@ -23,4 +33,17 @@ a {
 
 .test {
   border: 1px solid red;
+}
+
+.divider {
+  border-bottom: 1px solid #dadde1;
+  margin: 20px 0;
+}
+
+.darker-when-hover:hover {
+  background: var(--light-gray);
+}
+
+.darker-when-hover:active {
+  background: var(--gray)
 }
