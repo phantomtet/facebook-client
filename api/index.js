@@ -1,7 +1,5 @@
 import axios from "axios";
 
-// const axios = axios.create()
-
 axios.interceptors.request.use(config => {
     config.baseURL = process.env.NEXT_PUBLIC_API_URL
     config.headers = {
@@ -14,11 +12,17 @@ axios.interceptors.response.use(
         return res
     },
     (err) => {
-        throw ({ ...err, name: err.response.data.name })
+        const message = err.response?.data?.name || err
+        throw ({ ...err, message })
     }
 )
 const api = {}
 
 api.LOGIN = (data) => axios.post('login', data)
+api.GET_FEED = (params) => axios.get('feed', { params })
+api.COMMENT = (data) => axios.post('comment', data)
+api.GET_SELF_PROFILE = () => axios.get('@me')
+api.CREATE_NEW_POST = (data) => axios.post('post', data)
+
 
 export default api

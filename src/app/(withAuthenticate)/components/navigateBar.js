@@ -1,11 +1,9 @@
-"use client";
-import { useSelector } from "react-redux"
+
 import SearchButton from "./searchButton"
 import AvatarButton from "./avatarButton"
 
 const NavigateBar = () => {
-    const user = useSelector(state => state.user.value)
-    if (user) return (
+    return (
         <div className="navigate-container">
             <div className="navigate-group-1">
                 <a href='/'>

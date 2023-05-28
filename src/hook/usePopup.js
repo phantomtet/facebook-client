@@ -14,12 +14,10 @@ const usePopup = (selector, defaultValue) => {
             if (popup !== e.target && !popup.contains(e.target)) setIsOpen(false)
         }
         if (!isOpen) {
-            console.log('close')
             popup.classList.remove('open')
             document.removeEventListener('click', fn)
         }
         else {
-            console.log('open')
             popup.classList.add('open')
             document.addEventListener('click', fn)
         }

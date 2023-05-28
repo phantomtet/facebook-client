@@ -8,7 +8,6 @@ const userSlice = createSlice({
     reducers: {
         storeUser: (state, action) => {
             state.value = action.payload
-            localStorage.setItem('token', action.payload.token)
         },
         clearUser: () => {
             state.value = null

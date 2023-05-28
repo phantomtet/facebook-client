@@ -1,12 +1,15 @@
-/* .homepage-container {
-    height: 200vh;
-} */
+.homepage-container {
+    min-height: 200vh;
+    display: flex;
+    justify-content: space-between;
+}
 
 .navigate-container {
+    z-index: var(--z-index-navigate-bar);
     background: white;
     font-size: 13px;
-    min-height: 52px;
-    max-height: 52px;
+    min-height: 50px;
+    max-height: 50px;
     position: sticky;
     top: 0;
     left: 0;
@@ -23,13 +26,36 @@
 }
 
 .search-button {
+    display: flex;
+    align-items: center;
+    padding-left: 12px;
+    margin-top: 2px;
     background: var(--light-gray);
     margin-left: 6px;
-    min-height: 36px;
+    min-height: 32px;
     min-width: 36px;
-    max-height: 36px;
-    max-width: 36px;
+    max-height: 32px;
+    max-width: 231px;
     cursor: pointer;
+    border-radius: 20px;
+    cursor: text;
+}
+
+.search-button-placeholder {
+    margin-left: 5px;
+    font-size: .85rem;
+    font-weight: 200;
+    display: none;
+}
+
+@media (min-width: 1250px) {
+    .search-button {
+        width: 231px;
+    }
+
+    .search-button-placeholder {
+        display: initial
+    }
 }
 
 .search-popup {
@@ -49,6 +75,7 @@
 
 .search-popup>.div1 {
     display: flex;
+    transition: none;
 }
 
 .search-popup .go-back-button {
@@ -94,9 +121,11 @@
 }
 
 .avatar {
-    width: 100%;
+    height: 30px;
+    width: 30px;
+    margin-right: 8px;
     object-fit: contain;
-    border: 1px solid;
+    border: 1px solid var(--dark-gray);
     border-radius: 100%;
     position: relative;
     cursor: pointer;
@@ -162,4 +191,27 @@
 
 .setting-button:hover {
     background: var(--light-gray);
+}
+
+.feed-container {
+    padding-top: 20px;
+    max-width: 580px;
+    width: 100%;
+}
+
+.post {
+    background: white;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    padding: 10px 0 5px 0;
+    box-shadow: rgba(150, 150, 150, 0.25) 0px 1px 2px 0.25px;
+}
+
+.homepage-container .sidebar {
+    padding-top: 20px;
+    position: sticky;
+    top: 50px;
+    min-width: 300px;
+    max-width: 300px;
+    height: calc(100vh - 50px);
 }

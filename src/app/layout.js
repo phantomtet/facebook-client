@@ -8,7 +8,6 @@ import { I18nextProvider } from 'react-i18next'
 import i18n from '../locales/i18n';
 import { Provider } from 'react-redux';
 import store from '@/redux';
-import NavigateBar from './components/navigateBar';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -23,8 +22,6 @@ function RootLayout({ children }) {
       <body className={inter.className}>
         <I18nextProvider i18n={i18n}>
           <Provider store={store}>
-            <NavigateBar />
-
             {children}
             <ToastContainer position='bottom-left' />
           </Provider>
@@ -33,5 +30,4 @@ function RootLayout({ children }) {
     </html>
   )
 }
-
 export default appWithTranslation(RootLayout)

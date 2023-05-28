@@ -12,15 +12,14 @@
   --light-gray: #f0f2f5;
   --gray: #e4e6eb;
   --dark-gray: #d7d9df;
+  --z-index-loading-screen: 110;
   --z-index-popup: 100;
-
+  --z-index-navigate-bar: 90;
 }
 
-/* html,
 body {
-  max-width: 100vw;
-  overflow-x: hidden;
-} */
+  background: var(--light-gray);
+}
 
 html {
   overflow-y: scroll;
@@ -35,6 +34,19 @@ a {
   border: 1px solid red;
 }
 
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(160, 160, 160);
+  border-radius: 8px;
+}
+
+body::-webkit-scrollbar-thumb:hover {
+  background: gray;
+}
+
 .divider {
   border-bottom: 1px solid #dadde1;
   margin: 20px 0;
@@ -46,4 +58,25 @@ a {
 
 .darker-when-hover:active {
   background: var(--gray)
+}
+
+.use-auto-hide-scrollbar:hover {
+  overflow-y: overlay;
+
+}
+
+.use-auto-hide-scrollbar {
+
+  overflow-y: hidden;
+  padding-right: 8px;
+}
+
+.use-auto-hide-scrollbar::-webkit-scrollbar {
+  background: transparent;
+  width: 7px;
+}
+
+.use-auto-hide-scrollbar::-webkit-scrollbar-thumb {
+  background: rgb(150, 150, 150);
+  border-radius: 8px;
 }

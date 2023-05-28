@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import api from "../../../../api";
+import api from "../../../../../api";
 import { useTranslation } from "react-i18next";
 import { toast } from 'react-toastify'
 import { ReduxUserActions } from "@/redux/userSlice";
@@ -24,11 +24,12 @@ export default function LoginForm() {
         api.LOGIN(input).then(res => {
             if (res.status == 200) {
                 dispatch(ReduxUserActions.storeUser(res.data))
+                localStorage.setItem('token', res.data.token)
                 router.push('/')
             }
         })
             .catch(error => {
-                toast.error(t(error.name))
+                toast.error(t(error.message))
             })
     }
 

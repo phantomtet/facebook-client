@@ -5,12 +5,8 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import Link from 'next/link'
 
-const settingConfig = [
-    { label: 'Settings & privacy', submenu: [] }
-]
-
 const AvatarButton = () => {
-    const user = useSelector(state => state.user.value)
+    const user = useSelector(state => state.user?.value)
     const [togglePopUp, isOpen] = usePopup('.avatar-popup-container')
     const [menuIndex, setMenuIndex] = useState(0)
     useEffect(() => {
@@ -26,18 +22,19 @@ const AvatarButton = () => {
                 break;
         }
     }, [menuIndex])
+    console.log('hey wtf why u run?')
     useEffect(() => {
         if (!isOpen) setMenuIndex(0)
     }, [isOpen])
     return (
         <div className="button-container">
-            <img src={user.avatar} className="avatar" onClick={togglePopUp} />
+            <img src={user.avatar} style={{ height: 36, width: 36 }} className="avatar" onClick={togglePopUp} />
             <div className="avatar-popup-container">
                 <div className="menu-0">
                     <div className="" style={{ minWidth: 250, marginBottom: 15, borderRadius: 6, padding: 3, boxShadow: 'rgba(150,150,150,0.25) 1px 1px 10px 0.25px' }}>
-                        <Link className="setting-button" href={`/${user.id}`} >
-                            <img className="avatar" src={user.avatar} style={{ height: 30, width: 30, marginRight: 8 }} href={`/${user.id}`} />
-                            <div style={{ fontSize: 15 }}>{user.name}</div>
+                        <Link className="setting-button" href={`/${user?._id}`} >
+                            <img className="avatar" src={user?.avatar} href={`/${user?._id}`} />
+                            <div style={{ fontSize: 15 }}>{user?.name}</div>
                         </Link>
                         <div className='divider' style={{ margin: '3px 8px' }} />
                         <div className="setting-button" style={{ height: 40, display: 'flex', alignItems: 'center' }}>
