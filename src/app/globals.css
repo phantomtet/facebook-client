@@ -4,21 +4,43 @@
   margin: 0;
   font-size: inherit;
   transition: 0.25s ease all;
+  user-select: none;
+  -webkit-user-drag: none;
+
 }
 
 :root {
   --primary-color: #1877f2;
   --secondary-color: #42b72a;
+  --secondary-icon: #65676b;
   --light-gray: #f0f2f5;
   --gray: #e4e6eb;
   --dark-gray: #d7d9df;
   --z-index-loading-screen: 110;
   --z-index-popup: 100;
   --z-index-navigate-bar: 90;
+  --text-black-color: #050505;
+  --text-gray-color: #65676B;
+}
+
+ul {
+  list-style: none;
+}
+
+input {
+  outline: none;
+  border: none;
+  border-radius: 20px;
+  background: var(--light-gray);
+  padding: 8px 12px;
+  width: 100%;
 }
 
 body {
   background: var(--light-gray);
+  color: var(--text-black-color);
+  overflow-x: auto;
+  /* height: 100vh; */
 }
 
 html {
@@ -45,6 +67,14 @@ a {
 
 body::-webkit-scrollbar-thumb:hover {
   background: gray;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.underline-when-hover:hover {
+  text-decoration: underline;
 }
 
 .divider {
@@ -79,4 +109,56 @@ body::-webkit-scrollbar-thumb:hover {
 .use-auto-hide-scrollbar::-webkit-scrollbar-thumb {
   background: rgb(150, 150, 150);
   border-radius: 8px;
+}
+
+.react-icon {
+  width: 39px;
+  height: 39px;
+  margin: 3px;
+  cursor: pointer;
+}
+
+.react-icon:hover {
+  transform: scale(1.2);
+}
+
+.react-icon:active {
+  transform: scale(1);
+}
+
+.react-icon-container {
+  /* display: none; */
+  bottom: 100%;
+  opacity: 0;
+  visibility: hidden;
+  transition: none;
+  pointer-events: visible;
+}
+
+.react-icon-container.show {
+  transition: 0.25s ease all;
+  display: flex;
+  bottom: 100%;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: visible;
+}
+
+.react-icon-with-animation {
+  pointer-events: none;
+  animation: react-animation 0.5s forwards;
+}
+
+@keyframes react-animation {
+  0% {
+    transform: scale(1) rotate(0deg);
+  }
+
+  50% {
+    transform: scale(1.2) rotate(-20deg);
+  }
+
+  100% {
+    transform: scale(1) rotate(0deg);
+  }
 }

@@ -5,8 +5,8 @@ import LoadingScreen from './components/common/LoadingScreen';
 import './style.css'
 
 const Layout = ({ children }) => {
-  const { isLoading } = useAuthenticate()
-  if (!isLoading) return (
+  const { isLoading, isAuthenticated } = useAuthenticate()
+  if (!isLoading && isAuthenticated) return (
     <>
       <NavigateBar />
       {children}

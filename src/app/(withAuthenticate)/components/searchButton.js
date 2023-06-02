@@ -3,11 +3,22 @@
 import usePopup from "@/hook/usePopup";
 import { sleep } from "@/misc/function";
 import { useEffect, useState } from "react";
+import api from "../../../../api";
 
 
 const SearchButton = () => {
     const [togglePopUp, isOpen] = usePopup('.search-popup')
     const [input, setInput] = useState('')
+    const [searchData, setSearchData] = useState([])
+    const search = () => {
+        api.SEARCH({ query: input }).then(res => {
+            setSearchData(res.data)
+        })
+    }
+    useEffect(() => {
+        if (input === '') return
+        search()
+    }, [input])
     useEffect(() => {
         if (isOpen) {
             sleep(100).then(() => {
@@ -22,15 +33,34 @@ const SearchButton = () => {
                 <div className="search-button-placeholder">{input || 'Search Facebook'}</div>
             </div>
             <div className="search-popup">
-                <div className="div1">
+                <div className="div1" style={{ marginBottom: 20 }}>
                     <div className="go-back-button round-button" onClick={togglePopUp}>
                         <svg fill="#65676b" viewBox="0 0 20 20" width="1em" height="1em" ><g fillRule="evenodd" transform="translate(-446 -350)"><g fillRule="nonzero"><path d="M100.249 201.999a1 1 0 0 0-1.415-1.415l-5.208 5.209a1 1 0 0 0 0 1.414l5.208 5.209A1 1 0 0 0 100.25 211l-4.501-4.501 4.5-4.501z" transform="translate(355 153.5)" /><path d="M107.666 205.5H94.855a1 1 0 1 0 0 2h12.813a1 1 0 1 0 0-2z" transform="translate(355 153.5)" /></g></g></svg>
                     </div>
                     <input value={input} onChange={e => setInput(e.target.value)} autoFocus className="search-input" placeholder="Search Facebook" />
                 </div>
+                <ul>
+                    {
+                        searchData.map((item, index) =>
+                            <SearchItem key={index} data={item} />
+                        )
+                    }
+                </ul>
             </div>
         </>
 
     )
 }
 export default SearchButton
+
+const SearchItem = ({ data }) => {
+    return (
+        <li style={{ display: 'flex', alignItems: 'center' }}>
+            <img className="avatar" style={{ marginRight: 12 }} src={data.avatar} />
+            <div>
+                <div>{data.name}</div>
+                <div></div>
+            </div>
+        </li>
+    )
+}
