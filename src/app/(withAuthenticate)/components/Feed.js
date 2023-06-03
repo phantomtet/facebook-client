@@ -6,6 +6,12 @@ import { useSelector } from "react-redux";
 
 const Feed = () => {
     const [feedData, setFeedData] = useState([])
+    const handleChangePostData = (data) => {
+        const dataIndex = feedData.findIndex(i => i._id == data._id)
+        let newFeedData = [...feedData]
+        newFeedData[dataIndex] = data
+        setFeedData(newFeedData)
+    }
     useEffect(() => {
         api.GET_FEED().then(res => {
             setFeedData(res.data)
@@ -16,7 +22,7 @@ const Feed = () => {
             <CreateNewPostComponent />
             {
                 feedData.map(item =>
-                    <Post key={item._id} data={item} />
+                    <Post key={item._id} data={item} onChange={handleChangePostData} />
                 )
             }
         </div>

@@ -39,13 +39,10 @@ input {
 body {
   background: var(--light-gray);
   color: var(--text-black-color);
-  overflow-x: auto;
-  /* height: 100vh; */
-}
-
-html {
   overflow-y: scroll;
 }
+
+html {}
 
 a {
   color: inherit;

@@ -1,16 +1,15 @@
-import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react"
+import React, { createContext, useCallback, useContext, useRef, useState } from "react"
 import { useSelector } from "react-redux"
 import api from "../../../../api"
-import { getDifferentTime, sleep } from "@/misc/function"
+import { getDifferentTime } from "@/misc/function"
 import dayjs from "dayjs"
-import useValueRef from "@/hook/useValueRef"
 
 const PostDataContext = createContext()
 
-const Post = ({ data }) => {
+const Post = ({ data, onChange }) => {
 
     return (
-        <PostDataContext.Provider value={data}>
+        <PostDataContext.Provider value={[data, onChange]}>
             <div className="post">
                 <div style={{ margin: '0 10px', display: 'flex', alignItems: 'center' }}>
                     <img className="avatar" style={{ height: 40, width: 40 }} src={data.owner.avatar} />
@@ -35,84 +34,80 @@ const Post = ({ data }) => {
 
 export default Post
 const PostAction = () => {
-    const postData = useContext(PostDataContext)
-    const [currentReaction, setCurrentReaction] = useState(postData.currentReaction?.type)
-    const [postReaction, setPostReaction] = useState({
-        totalReaction: postData.totalReaction,
-        reaction: postData.reaction
-    })
+    const [postData, setPostData] = useContext(PostDataContext)
+    const totalReaction = postData.reaction.reduce((a, b) => a + b.count, 0)
     const handleReactPost = (type) => {
         api.REACT_TO_POST(postData._id, { type }).then(res => {
-            setCurrentReaction(res.data.type)
-            setPostReaction({
-                totalReaction: res.data.totalReaction,
-                reaction: res.data.reaction
-            })
+            setPostData({ ...postData, ...res.data })
         })
     }
     const renderReactButton = () => {
-        switch (currentReaction) {
+        const key = postData.currentReaction
+        switch (postData.currentReaction) {
             default:
                 return <React.Fragment>
-                    <svg key={currentReaction} className="react-icon-with-animation" width="18" height="18" viewBox="0 0 24 24" fill='none'><g id="SVGRepo_bgCarrier" strokeWidth={0} /><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round" /><g id="SVGRepo_iconCarrier"> <path d="M8 10V20M8 10L4 9.99998V20L8 20M8 10L13.1956 3.93847C13.6886 3.3633 14.4642 3.11604 15.1992 3.29977L15.2467 3.31166C16.5885 3.64711 17.1929 5.21057 16.4258 6.36135L14 9.99998H18.5604C19.8225 9.99998 20.7691 11.1546 20.5216 12.3922L19.3216 18.3922C19.1346 19.3271 18.3138 20 17.3604 20L8 20" stroke={currentReaction == 1 ? 'var(--primary-color)' : 'var(--secondary-icon)'} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /> </g></svg>
+                    <svg key={key} className="react-icon-with-animation" width="18" height="18" viewBox="0 0 24 24" fill='none'><g id="SVGRepo_bgCarrier" strokeWidth={0} /><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round" /><g id="SVGRepo_iconCarrier"> <path d="M8 10V20M8 10L4 9.99998V20L8 20M8 10L13.1956 3.93847C13.6886 3.3633 14.4642 3.11604 15.1992 3.29977L15.2467 3.31166C16.5885 3.64711 17.1929 5.21057 16.4258 6.36135L14 9.99998H18.5604C19.8225 9.99998 20.7691 11.1546 20.5216 12.3922L19.3216 18.3922C19.1346 19.3271 18.3138 20 17.3604 20L8 20" stroke='var(--secondary-icon)' strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /> </g></svg>
                     <div style={{ marginLeft: 6, transition: 'none' }}>Like</div>
                 </React.Fragment>
             case 1:
                 return <React.Fragment>
-                    <svg key={currentReaction} className="react-icon-with-animation" width="18" height="18" viewBox="0 0 24 24" fill='var(--primary-color)'><g id="SVGRepo_bgCarrier" strokeWidth={0} /><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round" /><g id="SVGRepo_iconCarrier"> <path d="M8 10V20M8 10L4 9.99998V20L8 20M8 10L13.1956 3.93847C13.6886 3.3633 14.4642 3.11604 15.1992 3.29977L15.2467 3.31166C16.5885 3.64711 17.1929 5.21057 16.4258 6.36135L14 9.99998H18.5604C19.8225 9.99998 20.7691 11.1546 20.5216 12.3922L19.3216 18.3922C19.1346 19.3271 18.3138 20 17.3604 20L8 20" stroke={currentReaction == 1 ? 'var(--primary-color)' : 'var(--secondary-icon)'} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /> </g></svg>
+                    <svg key={key} className="react-icon-with-animation" width="18" height="18" viewBox="0 0 24 24" fill='var(--primary-color)'><g id="SVGRepo_bgCarrier" strokeWidth={0} /><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round" /><g id="SVGRepo_iconCarrier"> <path d="M8 10V20M8 10L4 9.99998V20L8 20M8 10L13.1956 3.93847C13.6886 3.3633 14.4642 3.11604 15.1992 3.29977L15.2467 3.31166C16.5885 3.64711 17.1929 5.21057 16.4258 6.36135L14 9.99998H18.5604C19.8225 9.99998 20.7691 11.1546 20.5216 12.3922L19.3216 18.3922C19.1346 19.3271 18.3138 20 17.3604 20L8 20" stroke='var(--primary-color)' strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /> </g></svg>
                     <div style={{ marginLeft: 6, transition: 'none', color: 'var(--primary-color)' }}>Like</div>
                 </React.Fragment>
             case 2:
                 return <React.Fragment>
-                    <img key={currentReaction} className="react-icon-with-animation" src='/react-icon-2.png' height='18' width='18' />
+                    <img key={key} className="react-icon-with-animation" src='/react-icon-2.png' height='18' width='18' />
                     <div style={{ marginLeft: 6, transition: 'none', color: '#f33e58' }}>Love</div>
                 </React.Fragment>
             case 3:
                 return <React.Fragment>
-                    <img key={currentReaction} className="react-icon-with-animation" src='/react-icon-3.png' height='18' width='18' />
+                    <img key={key} className="react-icon-with-animation" src='/react-icon-3.png' height='18' width='18' />
                     <div style={{ marginLeft: 6, transition: 'none', color: '#f7b125' }}>Care</div>
                 </React.Fragment>
             case 4:
                 return <React.Fragment>
-                    <img key={currentReaction} className="react-icon-with-animation" src='/react-icon-4.png' height='18' width='18' />
+                    <img key={key} className="react-icon-with-animation" src='/react-icon-4.png' height='18' width='18' />
                     <div style={{ marginLeft: 6, transition: 'none', color: '#F7B125' }}>Haha</div>
                 </React.Fragment>
             case 5:
                 return <React.Fragment>
-                    <img key={currentReaction} className="react-icon-with-animation" src='/react-icon-5.png' height='18' width='18' />
+                    <img key={key} className="react-icon-with-animation" src='/react-icon-5.png' height='18' width='18' />
                     <div style={{ marginLeft: 6, transition: 'none', color: '#F7B125' }}>Wow</div>
                 </React.Fragment>
             case 6:
                 return <React.Fragment>
-                    <img key={currentReaction} className="react-icon-with-animation" src='/react-icon-6.png' height='18' width='18' />
+                    <img key={key} className="react-icon-with-animation" src='/react-icon-6.png' height='18' width='18' />
                     <div style={{ marginLeft: 6, transition: 'none', color: '#F7B125' }}>Sad</div>
                 </React.Fragment>
             case 7:
                 return <React.Fragment>
-                    <img key={currentReaction} className="react-icon-with-animation" src='/react-icon-7.png' height='18' width='18' />
+                    <img key={key} className="react-icon-with-animation" src='/react-icon-7.png' height='18' width='18' />
                     <div style={{ marginLeft: 6, transition: 'none', color: '#E9710F' }}>Angry</div>
                 </React.Fragment>
         }
     }
     return (
         <div style={{ padding: '0 10px', fontSize: 15, fontWeight: 600, color: 'var(--secondary-icon)' }}>
-            <div hidden={!postReaction.totalReaction} style={{ fontWeight: 400, display: 'flex', justifyContent: 'space-between' }}>
+            <div style={{ fontWeight: 400, display: 'flex', justifyContent: 'space-between' }}>
                 <div style={{ display: 'flex', alignItems: 'center' }}>
                     {
-                        postReaction.reaction.sort((a, b) => b.count - a.count).filter((i, idx) => idx < 2 && i.count > 0).map((i, index) =>
+                        postData.reaction.sort((a, b) => b.count - a.count).filter((i, idx) => idx < 2 && i.count > 0).map((i, index) =>
                             <img className="clickable" key={i.type} src={`/react-icon-${i.type}.png`} style={{ height: 18, width: 18, marginLeft: index == 1 && -4 }} />
                         )
                     }
-                    <span className="clickable underline-when-hover" style={{ marginLeft: 3 }}>{postReaction.totalReaction}</span>
+                    <span className="clickable underline-when-hover" style={{ marginLeft: 3, display: totalReaction ? '' : 'none' }}>{totalReaction}</span>
                 </div>
                 <div>
-                    sda
+                    <span className="clickable underline-when-hover" style={{ display: postData.totalComment ? 'flex' : 'none', alignItems: 'center' }}>
+                        {postData.totalComment}&nbsp;
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="#000000"><g id="SVGRepo_bgCarrier" strokeWidth={0} /><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round" /><g id="SVGRepo_iconCarrier"><defs><style dangerouslySetInnerHTML={{ __html: ".cls-1{fill:none;stroke:#020202;stroke-miterlimit:10;stroke-width:0.9120000000000001;}" }} /></defs><path className="cls-1" d="M1.5,5.3v9.54a3.82,3.82,0,0,0,3.82,3.82H7.23v2.86L13,18.66h5.73a3.82,3.82,0,0,0,3.82-3.82V5.3a3.82,3.82,0,0,0-3.82-3.82H5.32A3.82,3.82,0,0,0,1.5,5.3Z" /></g></svg>
+                    </span>
                 </div>
             </div>
             <div className="divider" style={{ margin: '3px 0' }} />
             <div style={{ display: 'flex' }} >
                 <div style={{ width: '100%', position: 'relative', display: 'flex', justifyContent: 'left' }} >
-                    <FullReactionPopup value={currentReaction} onClick={handleReactPost}>
+                    <FullReactionPopup value={postData.currentReaction} onClick={handleReactPost}>
                         {
                             (showPopup, hidePopup, onClick) =>
                                 <div onClick={onClick} onMouseDown={showPopup} onMouseEnter={showPopup} onMouseLeave={hidePopup} className="setting-button" style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
@@ -121,7 +116,7 @@ const PostAction = () => {
                         }
                     </FullReactionPopup>
                 </div>
-                <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }} className="setting-button">
+                <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }} className="setting-button" onClick={() => document.querySelector(`.comment-input__${postData._id}`)?.focus()}>
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="#000000"><g id="SVGRepo_bgCarrier" strokeWidth={0} /><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round" /><g id="SVGRepo_iconCarrier"><defs><style dangerouslySetInnerHTML={{ __html: ".cls-1{fill:none;stroke:#020202;stroke-miterlimit:10;stroke-width:0.9120000000000001;}" }} /></defs><path className="cls-1" d="M1.5,5.3v9.54a3.82,3.82,0,0,0,3.82,3.82H7.23v2.86L13,18.66h5.73a3.82,3.82,0,0,0,3.82-3.82V5.3a3.82,3.82,0,0,0-3.82-3.82H5.32A3.82,3.82,0,0,0,1.5,5.3Z" /></g></svg>
                     <div style={{ marginLeft: 6, transition: 'none' }}>Comment</div>
                 </div>
@@ -135,7 +130,7 @@ const PostAction = () => {
     )
 }
 const CommentInput = () => {
-    const postData = useContext(PostDataContext)
+    const [postData, setPostData] = useContext(PostDataContext)
     const [input, setInput] = useState()
     const [attachments, setAttachments] = useState([])
     const user = useSelector(state => state.user.value)
@@ -150,7 +145,7 @@ const CommentInput = () => {
         <div style={{ margin: '0 10px', display: 'flex' }}>
             <img className="avatar" style={{ height: 32, width: 32, marginTop: 2 }} src={user.avatar} alt='' />
             <div style={{ display: 'flex', width: '100%' }}>
-                <input value={input} onKeyDown={handleKeyDown} onChange={e => setInput(e.target.value)} placeholder="Write a comment..." style={{ borderRadius: '20px 0 0 20px', height: 36, paddingLeft: 12, fontSize: 15 }} />
+                <input className={`comment-input__${postData._id}`} value={input} onKeyDown={handleKeyDown} onChange={e => setInput(e.target.value)} placeholder="Write a comment..." style={{ borderRadius: '20px 0 0 20px', height: 36, paddingLeft: 12, fontSize: 15 }} />
                 <div className="attachments" style={{ display: 'flex', justifyContent: 'right', paddingRight: 8, right: 0, top: 5, borderRadius: '0 20px 20px 0', background: 'var(--light-gray)', width: '', height: 36 }}>
                     <div className="round-button darker-when-hover" style={{ cursor: 'pointer' }}>
                         <svg width="32" height="32" viewBox="-4.32 -4.32 32.64 32.64" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" strokeWidth={0} /><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round" /><g id="SVGRepo_iconCarrier"> <path fillRule="evenodd" clipRule="evenodd" d="M14.2792 3C15.1401 3 15.9044 3.55086 16.1766 4.36754L16.7208 6H19C20.6569 6 22 7.34315 22 9V17C22 18.6569 20.6569 20 19 20H5C3.34315 20 2 18.6569 2 17V9C2 7.34315 3.34315 6 5 6H7.27924L7.82339 4.36754C8.09562 3.55086 8.8599 3 9.72076 3H14.2792ZM14.2792 5H9.72076L9.17661 6.63246C8.90438 7.44914 8.1401 8 7.27924 8H5C4.44772 8 4 8.44772 4 9V17C4 17.5523 4.44772 18 5 18H19C19.5523 18 20 17.5523 20 17V9C20 8.44772 19.5523 8 19 8H16.7208C15.8599 8 15.0956 7.44914 14.8234 6.63246L14.2792 5ZM9.5 12.5C9.5 11.1193 10.6193 10 12 10C13.3807 10 14.5 11.1193 14.5 12.5C14.5 13.8807 13.3807 15 12 15C10.6193 15 9.5 13.8807 9.5 12.5ZM12 8C9.51472 8 7.5 10.0147 7.5 12.5C7.5 14.9853 9.51472 17 12 17C14.4853 17 16.5 14.9853 16.5 12.5C16.5 10.0147 14.4853 8 12 8Z" fill="var(--secondary-icon)" /> </g></svg>
