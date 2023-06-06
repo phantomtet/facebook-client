@@ -22,7 +22,6 @@ const AvatarButton = () => {
                 break;
         }
     }, [menuIndex])
-    console.log('hey wtf why u run?')
     useEffect(() => {
         if (!isOpen) setMenuIndex(0)
     }, [isOpen])

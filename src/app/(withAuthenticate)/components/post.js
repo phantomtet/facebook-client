@@ -131,7 +131,7 @@ const PostAction = () => {
 }
 const CommentInput = () => {
     const [postData, setPostData] = useContext(PostDataContext)
-    const [input, setInput] = useState()
+    const [input, setInput] = useState('')
     const [attachments, setAttachments] = useState([])
     const user = useSelector(state => state.user.value)
     const handleKeyDown = e => {
@@ -156,12 +156,12 @@ const CommentInput = () => {
     )
 }
 const CommentList = () => {
-    const postData = useContext(PostDataContext)
-    const [commentList, setCommentList] = useState(postData.latestComments || [])
+    const [postData, setPostData] = useContext(PostDataContext)
+    // const [commentList, setCommentList] = useState(postData.latestComments || [])
     return (
         <div style={{ margin: '10px', display: 'flex', flexDirection: 'column-reverse' }}>
             {
-                commentList.map(item =>
+                postData.latestComments.map(item =>
                     <SingleComment key={item._id} data={item} />
                 )
             }

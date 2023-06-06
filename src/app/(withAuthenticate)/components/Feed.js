@@ -3,20 +3,31 @@ import { useEffect, useState } from "react";
 import Post from "./post";
 import api from "../../../../api";
 import { useSelector } from "react-redux";
+import useSavingPreviousState from "@/hook/useSavingPreviousState";
 
 const Feed = () => {
-    const [feedData, setFeedData] = useState([])
+    const [feedData, setFeedData] = useSavingPreviousState([], 'feedData')
+    const [isLoading, setIsLoading] = useState(!feedData.length)
+    const getFeed = () => {
+        api.GET_FEED({ after: feedData[feedData.length - 1]?._id }).then(res => {
+            setIsLoading(false)
+            setFeedData([...feedData, ...res.data])
+        })
+    }
     const handleChangePostData = (data) => {
         const dataIndex = feedData.findIndex(i => i._id == data._id)
         let newFeedData = [...feedData]
         newFeedData[dataIndex] = data
         setFeedData(newFeedData)
     }
+    window.onscroll = e => {
+        let target = e.target.documentElement
+        if (target.scrollHeight - target.scrollTop - target.clientHeight <= 300) setIsLoading(true)
+    }
     useEffect(() => {
-        api.GET_FEED().then(res => {
-            setFeedData(res.data)
-        })
-    }, [])
+        if (isLoading) getFeed()
+    }, [isLoading])
+
     return (
         <div className="feed-container">
             <CreateNewPostComponent />
@@ -50,7 +61,7 @@ const CreateNewPostComponent = () => {
             </div>
             <div className="divider" style={{ margin: '12px 0 8px' }} />
             <div style={{ display: 'flex', color: 'var(--secondary-icon)', fontWeight: 600, fontSize: 15 }}>
-                <div className="setting-button" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%' }}>
+                <div onClick={() => sessionStorage.setItem('ada', { a: 1 })} className="setting-button" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%' }}>
                     <img height={24} width={24} src='https://static.xx.fbcdn.net/rsrc.php/v3/yE/r/epGAMnVkMsy.png' />
                     &nbsp;Live video
                 </div>
