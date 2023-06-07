@@ -7,8 +7,8 @@
     z-index: var(--z-index-navigate-bar);
     background: white;
     font-size: 13px;
-    min-height: 50px;
-    max-height: 50px;
+    min-height: 56px;
+    max-height: 56px;
     position: sticky;
     left: 0;
     top: 0;
@@ -31,10 +31,11 @@
     margin-top: 2px;
     background: var(--light-gray);
     margin-left: 6px;
-    min-height: 32px;
-    min-width: 36px;
-    max-height: 32px;
-    max-width: 231px;
+    min-height: 40px;
+    min-width: 40px;
+    max-height: 40px;
+    max-width: 240px;
+    width: 100%;
     cursor: pointer;
     border-radius: 20px;
     cursor: text;
@@ -49,7 +50,7 @@
 
 @media (min-width: 1250px) {
     .search-button {
-        width: 231px;
+        width: 240px;
     }
 
     .search-button-placeholder {
@@ -64,8 +65,8 @@
     top: 0;
     left: 0;
     position: fixed;
-    min-width: 300px;
-    max-width: 300px;
+    min-width: 320px;
+    max-width: 320px;
     max-height: 500px;
     background: white;
     box-shadow: rgba(150, 150, 150, 0.25) 1px 1px 10px 0.25px;
@@ -78,10 +79,10 @@
 }
 
 .search-popup .go-back-button {
-    min-width: 32px;
-    max-width: 32px;
-    min-height: 32px;
-    max-height: 32px;
+    min-width: 40px;
+    max-width: 40px;
+    min-height: 40px;
+    max-height: 40px;
     margin-right: 8px;
     cursor: pointer;
 
@@ -103,7 +104,7 @@
     border: none;
     border-radius: 20px;
     background: var(--light-gray);
-    width: 100%;
+    width: 240px;
     padding-left: 20px;
     font-size: .9375rem;
 }
@@ -126,10 +127,6 @@
 
 .button-container {
     position: relative;
-    min-width: 36px;
-    max-width: 36px;
-    min-height: 36px;
-    max-height: 36px;
 }
 
 .avatar:active {
@@ -174,25 +171,11 @@
 
 }
 
-.setting-button {
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    border-radius: 6px;
-    padding: 8px;
-}
 
-.setting-button:hover {
-    background: var(--light-gray);
-}
-
-.setting-button:active {
-    background: var(--gray);
-}
 
 .feed-container {
     padding-top: 20px;
-    max-width: 580px;
+    max-width: 680px;
     width: 100%;
 }
 
@@ -207,8 +190,8 @@
 .homepage-container .sidebar {
     padding-top: 20px;
     position: sticky;
-    top: 50px;
+    top: 56px;
     min-width: 300px;
     max-width: 300px;
-    height: calc(100vh - 50px);
+    height: calc(100vh - 56px);
 }

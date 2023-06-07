@@ -25,4 +25,5 @@ api.GET_SELF_PROFILE = () => axios.get('@me')
 api.CREATE_NEW_POST = (data) => axios.post('post', data)
 api.SEARCH = (params) => axios.get('search', { params })
 api.REACT_TO_POST = (id, data) => axios.post(`post/${id}/reaction`, data)
+api.GET_CONTACT = (params) => axios.get('contact', { params })
 export default api

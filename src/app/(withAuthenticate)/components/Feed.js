@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import Post from "./post";
 import api from "../../../../api";
 import { useSelector } from "react-redux";
@@ -27,7 +27,6 @@ const Feed = () => {
     useEffect(() => {
         if (isLoading) getFeed()
     }, [isLoading])
-
     return (
         <div className="feed-container">
             <CreateNewPostComponent />

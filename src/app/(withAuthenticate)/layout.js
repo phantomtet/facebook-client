@@ -3,6 +3,7 @@ import useAuthenticate from '@/hook/useAuthenticate';
 import NavigateBar from './components/navigateBar';
 import LoadingScreen from './components/common/LoadingScreen';
 import './style.css'
+import MessagePopup from './components/MessagePopup';
 
 const Layout = ({ children }) => {
   const { isLoading, isAuthenticated } = useAuthenticate()
@@ -10,6 +11,7 @@ const Layout = ({ children }) => {
     <>
       <NavigateBar />
       {children}
+      <MessagePopup />
     </>
   )
   return <LoadingScreen />

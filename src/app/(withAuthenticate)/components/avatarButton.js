@@ -27,7 +27,7 @@ const AvatarButton = () => {
     }, [isOpen])
     return (
         <div className="button-container">
-            <img src={user.avatar} style={{ height: 36, width: 36 }} className="avatar" onClick={togglePopUp} />
+            <img src={user.avatar} style={{ height: 40, width: 40 }} className="avatar" onClick={togglePopUp} />
             <div className="avatar-popup-container">
                 <div className="menu-0">
                     <div className="" style={{ minWidth: 250, marginBottom: 15, borderRadius: 6, padding: 3, boxShadow: 'rgba(150,150,150,0.25) 1px 1px 10px 0.25px' }}>
