@@ -7,7 +7,7 @@ import Link from 'next/link'
 
 const AvatarButton = () => {
     const user = useSelector(state => state.user?.value)
-    const [togglePopUp, isOpen] = usePopup('.avatar-popup-container')
+    const [togglePopUp, isOpen] = usePopup('#profile-setting-popup')
     const [menuIndex, setMenuIndex] = useState(0)
     useEffect(() => {
         switch (menuIndex) {
@@ -26,9 +26,9 @@ const AvatarButton = () => {
         if (!isOpen) setMenuIndex(0)
     }, [isOpen])
     return (
-        <div className="button-container">
-            <img src={user.avatar} style={{ height: 40, width: 40 }} className="avatar" onClick={togglePopUp} />
-            <div className="avatar-popup-container">
+        <div className="button-container" style={{ height: 40, width: 40 }}>
+            <img src={user.avatar} style={{ height: 40, width: 40, marginRight: 0 }} className="avatar" onClick={togglePopUp} />
+            <div className="avatar-popup-container" id='profile-setting-popup'>
                 <div className="menu-0">
                     <div className="" style={{ minWidth: 250, marginBottom: 15, borderRadius: 6, padding: 3, boxShadow: 'rgba(150,150,150,0.25) 1px 1px 10px 0.25px' }}>
                         <Link className="setting-button" href={`/${user?._id}`} >

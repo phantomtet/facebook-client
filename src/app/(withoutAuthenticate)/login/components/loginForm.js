@@ -1,14 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useContext, useState } from "react";
 import api from "../../../../../api";
 import { useTranslation } from "react-i18next";
 import { toast } from 'react-toastify'
 import { ReduxUserActions } from "@/redux/userSlice";
 import { useDispatch } from 'react-redux'
 import { useRouter } from "next/navigation";
+import { WebSocketContext } from "@/app/layout";
 
 export default function LoginForm() {
+    const ws = useContext(WebSocketContext)
     const dispatch = useDispatch()
     const router = useRouter()
     const { t } = useTranslation()
@@ -26,9 +28,11 @@ export default function LoginForm() {
                 dispatch(ReduxUserActions.storeUser(res.data))
                 localStorage.setItem('token', res.data.token)
                 router.push('/')
+                ws.current = new WebSocket(process.env.NEXT_PUBLIC_WEBSOCKET_URL + `?userId=${res.data._id}`)
             }
         })
             .catch(error => {
+                console.error(error)
                 toast.error(t(error.message))
             })
     }

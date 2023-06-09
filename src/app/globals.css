@@ -192,3 +192,35 @@ body::-webkit-scrollbar-thumb:hover {
 .hover-show-hidden:hover .hidden {
   display: initial
 }
+
+@media (max-width: 1100px) {
+  .hidden-under-1100 {
+    display: none !important
+  }
+
+  .feed-container {
+    margin-left: 30px
+  }
+}
+
+@media (max-width: 900px) {
+  .hidden-under-900 {
+    display: none !important;
+  }
+
+  .feed-container {
+    margin: auto;
+  }
+}
+
+@media (max-width: 600px) {
+  .hidden-under-600 {
+    display: none !important;
+  }
+}
+
+@media (max-width: 430px) {
+  .hidden-under-430 {
+    display: none !important;
+  }
+}

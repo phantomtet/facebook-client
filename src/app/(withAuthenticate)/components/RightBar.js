@@ -15,7 +15,7 @@ const RightBar = () => {
         })
     }, [])
     return (
-        <div className="use-auto-hide-scrollbar sidebar " style={{ position: 'sticky', top: 56, minWidth: 360, maxWidth: 360, height: 'calc(100vh - 56px)', paddingLeft: 8 }}>
+        <div className="use-auto-hide-scrollbar sidebar hidden-under-900" style={{ position: 'sticky', top: 56, minWidth: 360, maxWidth: 360, height: 'calc(100vh - 56px)', paddingLeft: 8 }}>
             <div className="sponsor " style={{}}>
                 <div style={{ marginBottom: 10, color: 'var(--secondary-icon)', fontWeight: 500 }}>Sponsores</div>
                 {

@@ -68,7 +68,7 @@ const CreateNewPostComponent = () => {
                     <img height={24} width={24} src='https://static.xx.fbcdn.net/rsrc.php/v3/yQ/r/74AG-EvEtBm.png' />
                     &nbsp;Photo/video
                 </div>
-                <div className="setting-button" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%' }}>
+                <div className="setting-button hidden-under-430" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%' }}>
                     <img height={24} width={24} src='https://static.xx.fbcdn.net/rsrc.php/v3/y7/r/_RWOIsUgWGL.png' />
                     &nbsp;Feeling/activity
                 </div>
