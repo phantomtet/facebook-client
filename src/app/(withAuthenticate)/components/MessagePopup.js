@@ -118,10 +118,10 @@ const OpeningItem = ({ data }) => {
 }
 const MessageItem = ({ data }) => {
     const yourId = useSelector(state => state.user?.value?._id)
-    const isYourMessage = yourId === data.ownerId?._id
+    const isYourMessage = yourId === data.owner?._id
     return (
         <div style={{ display: 'flex', justifyContent: isYourMessage ? 'right' : 'left', alignItems: 'center' }}>
-            <img hidden={isYourMessage} src={data.ownerId.avatar} style={{ height: 28, width: 28, borderRadius: '100%', marginRight: 8 }} />
+            <img hidden={isYourMessage} src={data.owner.avatar} style={{ height: 28, width: 28, borderRadius: '100%', marginRight: 8 }} />
             <div style={{ display: 'inline-flex', wordBreak: 'break-word', justifySelf: 'right', margin: 1, borderRadius: 20, background: isYourMessage ? 'var(--primary-color)' : 'var(--gray)', color: isYourMessage ? 'white' : 'black', padding: '8px 12px' }}>
                 {data.content}
             </div>

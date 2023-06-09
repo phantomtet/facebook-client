@@ -7,7 +7,6 @@ import dayjs from "dayjs"
 const PostDataContext = createContext()
 
 const Post = ({ data, onChange }) => {
-
     return (
         <PostDataContext.Provider value={[data, onChange]}>
             <div className="post">
@@ -140,6 +139,13 @@ const CommentInput = () => {
             content: input,
             attachments
         })
+            .then(res => {
+                setPostData({ ...postData, totalComment: (postData.totalComment || 0) + 1, latestComments: [res.data, ...postData.latestComments] })
+            })
+            .finally(() => {
+                setInput('')
+                setAttachments([])
+            })
     }
     return (
         <div style={{ margin: '0 10px', display: 'flex' }}>
@@ -157,7 +163,6 @@ const CommentInput = () => {
 }
 const CommentList = () => {
     const [postData, setPostData] = useContext(PostDataContext)
-    // const [commentList, setCommentList] = useState(postData.latestComments || [])
     return (
         <div style={{ margin: '10px', display: 'flex', flexDirection: 'column-reverse' }}>
             {
@@ -176,7 +181,7 @@ const SingleComment = ({ data }) => {
             <div>
                 <div style={{ padding: '8px 12px', borderRadius: 15, background: 'var(--light-gray)' }}>
                     <div style={{ fontWeight: 600, fontSize: 13 }}>{data.owner.name}</div>
-                    <div style={{ fontSize: 15 }}>{data.content}</div>
+                    <div style={{ fontSize: 15, wordBreak: 'break-word' }}>{data.content}</div>
                 </div>
 
                 <div className="reaction" style={{ display: 'flex', fontSize: 12, padding: '0 8px', margin: '2px 0', color: 'var(--text-gray-color)' }}>

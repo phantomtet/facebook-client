@@ -42,7 +42,7 @@ const MessageChannelItem = ({ data, onClick }) => {
             <div style={{ width: '100%' }}>
                 <div style={{ fontSize: 15 }}>{data.participants[0].name}</div>
                 <div style={{ display: 'flex', alignItems: 'end', color: 'var(--secondary-icon)' }}>
-                    <div style={{ whiteSpace: 'nowrap', textOverflow: 'ellipsis', maxWidth: '60%', overflow: 'hidden' }}>{data.latestMessage?.ownerId == user._id ? 'You: ' : ''}{data.latestMessage?.content}</div>
+                    <div style={{ whiteSpace: 'nowrap', textOverflow: 'ellipsis', maxWidth: '60%', overflow: 'hidden' }}>{data.latestMessage?.owner._id == user._id ? 'You: ' : ''}{data.latestMessage?.content}</div>
                     <div style={{ fontSize: 12, marginLeft: 5 }}><span style={{ marginBottom: 5 }}>.</span>{getDifferentTime(data.latestMessage?.createdAt)}</div>
                 </div>
             </div>

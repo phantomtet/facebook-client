@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import Post from "./post";
 import api from "../../../../api";
 import { useSelector } from "react-redux";
@@ -9,7 +9,9 @@ const Feed = () => {
     const [feedData, setFeedData] = useSavingPreviousState([], 'feedData')
     const [isLoading, setIsLoading] = useState(!feedData.length)
     const getFeed = () => {
-        api.GET_FEED({ after: feedData[feedData.length - 1]?._id }).then(res => {
+        let sortedData = [...feedData].sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt))
+        console.log(sortedData)
+        api.GET_FEED({ after: sortedData[sortedData.length - 1]?._id, before: sortedData[0]?._id }).then(res => {
             setIsLoading(false)
             setFeedData([...feedData, ...res.data])
         })
@@ -20,16 +22,21 @@ const Feed = () => {
         newFeedData[dataIndex] = data
         setFeedData(newFeedData)
     }
-    window.onscroll = e => {
-        let target = e.target.documentElement
-        if (target.scrollHeight - target.scrollTop - target.clientHeight <= 300) setIsLoading(true)
+    const handleCreateNewPost = (res) => {
+        setFeedData(prev => [res.data, ...prev])
     }
     useEffect(() => {
         if (isLoading) getFeed()
     }, [isLoading])
+    useEffect(() => {
+        window.onscroll = e => {
+            let target = e.target.documentElement
+            if (target.scrollHeight - target.scrollTop - target.clientHeight <= 300) setIsLoading(true)
+        }
+    }, [])
     return (
         <div className="feed-container">
-            <CreateNewPostComponent />
+            <CreateNewPostComponent onCreateNewPost={handleCreateNewPost} />
             {
                 feedData.map(item =>
                     <Post key={item._id} data={item} onChange={handleChangePostData} />
@@ -40,16 +47,14 @@ const Feed = () => {
 }
 export default Feed
 
-const CreateNewPostComponent = () => {
+const CreateNewPostComponent = ({ onCreateNewPost }) => {
     const user = useSelector(state => state.user.value)
     const [input, setInput] = useState('')
     const handleKeyDown = e => {
         if (e.key == 'Enter') {
             api.CREATE_NEW_POST({
                 content: input
-            }).then(res => {
-
-            })
+            }).then(onCreateNewPost)
         }
     }
     return (
