@@ -8,13 +8,18 @@ import useSavingPreviousState from "@/hook/useSavingPreviousState";
 const Feed = () => {
     const [feedData, setFeedData] = useSavingPreviousState([], 'feedData')
     const [isLoading, setIsLoading] = useState(!feedData.length)
+    const lastFetchDataTimestampRef = useRef()
     const getFeed = () => {
-        let sortedData = [...feedData].sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt))
-        console.log(sortedData)
-        api.GET_FEED({ after: sortedData[sortedData.length - 1]?._id, before: sortedData[0]?._id }).then(res => {
-            setIsLoading(false)
+        let sortedData = [...feedData].sort((a, b) => Date(b.createdAt) - Date(a.createdAt))
+        api.GET_FEED(
+            { after: sortedData[sortedData.length - 1]?._id, beforeTimestamp: lastFetchDataTimestampRef.current }
+        ).then(res => {
+            lastFetchDataTimestampRef.current = new Date()
             setFeedData([...feedData, ...res.data])
         })
+            .finally(() => {
+                setIsLoading(false)
+            })
     }
     const handleChangePostData = (data) => {
         const dataIndex = feedData.findIndex(i => i._id == data._id)
@@ -55,6 +60,7 @@ const CreateNewPostComponent = ({ onCreateNewPost }) => {
             api.CREATE_NEW_POST({
                 content: input
             }).then(onCreateNewPost)
+                .finally(() => setInput(''))
         }
     }
     return (

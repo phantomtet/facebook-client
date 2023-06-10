@@ -189,9 +189,12 @@
 
 .homepage-container .sidebar {
     padding-top: 20px;
+    padding-left: 8px;
     position: sticky;
     top: 56px;
     min-width: 360px;
     max-width: 360px;
     height: calc(100vh - 56px);
+    display: flex;
+    flex-direction: column;
 }

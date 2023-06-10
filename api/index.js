@@ -29,4 +29,6 @@ api.GET_CONTACT = (params) => axios.get('contact', { params })
 api.GET_MESSAGE = (id, params) => axios.get(`message/${id}`, { params })
 api.SEND_MESSAGE = (id, data) => axios.post(`message/${id}`, data)
 api.GET_MESSAGE_CHANNEL = (params) => axios.get('msgchannel', { params })
+api.GET_MORE_COMMENTS = (id, params) => axios.get(`post/${id}/comments`, { params })
+api.GET_POST_REACTION = (id, params) => axios.get(`post/${id}/reaction`, { params })
 export default api

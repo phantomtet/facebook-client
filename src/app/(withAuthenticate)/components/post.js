@@ -163,6 +163,18 @@ const CommentInput = () => {
 }
 const CommentList = () => {
     const [postData, setPostData] = useContext(PostDataContext)
+    const handleGetMoreComments = () => {
+        let comments = api.GET_MORE_COMMENTS(postData._id, { after: postData.latestComments[postData.latestComments.length - 1]?._id, before: postData.latestComments[0]?._id })
+        let reaction = api.GET_POST_REACTION(postData._id)
+        Promise.all([comments, reaction])
+            .then(res => {
+                let latestComments = [...res[0].data, ...postData.latestComments].sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt))
+                let { reaction, totalComment } = res[1].data
+
+                setPostData({ ...postData, reaction, totalComment, latestComments })
+            })
+
+    }
     return (
         <div style={{ margin: '10px', display: 'flex', flexDirection: 'column-reverse' }}>
             {
@@ -170,11 +182,11 @@ const CommentList = () => {
                     <SingleComment key={item._id} data={item} />
                 )
             }
+            <div onClick={handleGetMoreComments} className="underline-when-hover" hidden={(postData.totalComment || -1) <= postData.latestComments.length} style={{ marginBottom: 10, color: 'var(--secondary-icon)', fontWeight: 550, cursor: 'pointer' }}>View more comments</div>
         </div>
     )
 }
 const SingleComment = ({ data }) => {
-
     return (
         <div className="comment" style={{ display: 'flex', }}>
             <img className="avatar" src={data.owner.avatar} style={{ height: 32, width: 32, marginTop: 5 }} />

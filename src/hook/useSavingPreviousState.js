@@ -11,7 +11,7 @@ const useSavingPreviousState = (defaultState, name = '') => {
     useLayoutEffect(() => {
         sessionStorage.removeItem(key)
         return () => {
-            sessionStorage.setItem(key, JSON.stringify(refValue.current))
+            sessionStorage.setItem(key, JSON.stringify([...refValue.current]))
         }
     }, [])
     return [state, setState]
