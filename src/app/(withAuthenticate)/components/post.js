@@ -134,6 +134,7 @@ const CommentInput = () => {
     const [attachments, setAttachments] = useState([])
     const user = useSelector(state => state.user.value)
     const handleKeyDown = e => {
+        if (input == '' && !attachments.length) return
         if (e.key == 'Enter') api.COMMENT({
             postId: postData._id,
             content: input,

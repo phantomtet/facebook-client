@@ -45,6 +45,7 @@ const OpeningItem = ({ data }) => {
     const handleKeyDown = e => {
         switch (e.key) {
             case 'Enter':
+                if (input.content == '' && !input.attachments.length) return
                 api.SEND_MESSAGE(data._id, input)
                 setInput(initialInput)
                 break;

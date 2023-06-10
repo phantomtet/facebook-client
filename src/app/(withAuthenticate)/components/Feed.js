@@ -54,14 +54,28 @@ export default Feed
 
 const CreateNewPostComponent = ({ onCreateNewPost }) => {
     const user = useSelector(state => state.user.value)
+    const fileInputRef = useRef()
     const [input, setInput] = useState('')
+    const [attachments, setAttachments] = useState([])
     const handleKeyDown = e => {
+        if (input == '' && !attachments.length) return
         if (e.key == 'Enter') {
             api.CREATE_NEW_POST({
-                content: input
+                content: input,
+                attachments
             }).then(onCreateNewPost)
                 .finally(() => setInput(''))
         }
+    }
+    const handleSelectFile = (e) => {
+        const files = [...e.target.files].forEach((file) => {
+            const fileReader = new FileReader()
+            fileReader.onload = e => {
+                console.log(e.target.result)
+                setAttachments(prev => [...prev, e.target.result])
+            }
+            fileReader.readAsDataURL(file)
+        })
     }
     return (
         <div style={{ borderRadius: 8, background: 'white', width: '100%', marginBottom: 15, padding: '12px 16px 10px' }}>
@@ -75,7 +89,7 @@ const CreateNewPostComponent = ({ onCreateNewPost }) => {
                     <img height={24} width={24} src='https://static.xx.fbcdn.net/rsrc.php/v3/yE/r/epGAMnVkMsy.png' />
                     &nbsp;Live video
                 </div>
-                <div className="setting-button" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%' }}>
+                <div onClick={() => fileInputRef.current.click()} className="setting-button" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%' }}>
                     <img height={24} width={24} src='https://static.xx.fbcdn.net/rsrc.php/v3/yQ/r/74AG-EvEtBm.png' />
                     &nbsp;Photo/video
                 </div>
@@ -83,7 +97,22 @@ const CreateNewPostComponent = ({ onCreateNewPost }) => {
                     <img height={24} width={24} src='https://static.xx.fbcdn.net/rsrc.php/v3/y7/r/_RWOIsUgWGL.png' />
                     &nbsp;Feeling/activity
                 </div>
+                <input hidden type='file' ref={fileInputRef} onChange={handleSelectFile} multiple accept="image/*" />
+            </div>
+            <div style={{ display: 'flex' }}>
+                {
+                    attachments.map((file, index) =>
+                        <FileItem key={index} data={file} />
+                    )
+                }
             </div>
         </div>
+    )
+}
+
+const FileItem = ({ data }) => {
+
+    return (
+        <img src={data} style={{ borderRadius: 8, width: 64, height: 64 }} />
     )
 }

@@ -6,6 +6,7 @@
   transition: 0.25s ease all;
   user-select: none;
   -webkit-user-drag: none;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
 }
 
 :root {
@@ -23,6 +24,8 @@
   --text-black-color: #050505;
   --text-gray-color: #65676B;
   --icon-inactive: #bcc0c4;
+  --accent: #1876f2;
+  --highlight-bg: #e7f3ff;
 }
 
 ul {
