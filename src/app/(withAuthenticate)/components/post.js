@@ -6,10 +6,10 @@ import dayjs from "dayjs"
 
 const PostDataContext = createContext()
 
-const Post = ({ data, onChange }) => {
+const Post = React.memo(({ data, onChange }) => {
     return (
         <PostDataContext.Provider value={[data, onChange]}>
-            <div className="post">
+            <div className="post" style={{ display: 'flex', flexDirection: 'column' }}>
                 <div style={{ margin: '0 10px', display: 'flex', alignItems: 'center' }}>
                     <img className="avatar" style={{ height: 40, width: 40 }} src={data.owner.avatar} />
                     <div className="" style={{ width: '100%' }}>
@@ -23,13 +23,20 @@ const Post = ({ data, onChange }) => {
                 <div className="content" style={{ margin: '10px', fontSize: 15 }}>
                     {data.content}
                 </div>
+                <div style={{ display: 'flex', flexWrap: 'wrap', width: '100%', marginBottom: 10, }}>
+                    {
+                        data.attachments.filter((_, index) => index < 5).map((i, index, array) =>
+                            <FileOnPost key={index} index={index} data={i} totalFile={array.length} />
+                        )
+                    }
+                </div>
                 <PostAction />
                 <CommentList />
                 <CommentInput />
             </div>
-        </PostDataContext.Provider>
+        </PostDataContext.Provider >
     )
-}
+}, (p, n) => p.data === n.data)
 
 export default Post
 const PostAction = () => {
@@ -256,3 +263,24 @@ const FullReactionPopup = ({ children, onClick, value = 0 }) => {
         </>
     )
 }
+
+const FileOnPost = ({ data, totalFile, index }) => {
+    return (
+        <div style={{ width: config[totalFile - 1][index][0], paddingBottom: config[totalFile - 1][index][1], height: 0, position: 'relative', paddingRight: 5 }} >
+            {
+                data.contentType.startsWith('image/') ?
+                    <img src={data.url} width='100%' height='100%' style={{ objectFit: 'cover', position: 'absolute', border: '2px solid transparent' }} />
+                    :
+                    <video src={data.url} width='100%' height='100%' style={{ position: 'absolute', border: '2px solid transparent' }} />}
+        </div>
+
+    )
+}
+
+const config = [
+    [['100%', '100%']],
+    [['50%', '50%'], ['50%', '50%']],
+    [['100%', '50%'], ['50%', '50%'], ['50%', '50%']],
+    [['50%', '50%'], ['50%', '50%'], ['50%', '50%'], ['50%', '50%']],
+    [['50%', '50%'], ['50%', '50%'], ['33.33%', '33.33%'], ['33.33%', '33.33%'], ['33.33%', '33.33%']]
+]

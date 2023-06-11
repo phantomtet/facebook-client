@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import Post from "./post";
 import api from "../../../../api";
 import { useSelector } from "react-redux";
@@ -52,7 +52,7 @@ const Feed = () => {
 }
 export default Feed
 
-const CreateNewPostComponent = ({ onCreateNewPost }) => {
+const CreateNewPostComponent = React.memo(({ onCreateNewPost }) => {
     const user = useSelector(state => state.user.value)
     const fileInputRef = useRef()
     const [input, setInput] = useState('')
@@ -60,22 +60,20 @@ const CreateNewPostComponent = ({ onCreateNewPost }) => {
     const handleKeyDown = e => {
         if (input == '' && !attachments.length) return
         if (e.key == 'Enter') {
-            api.CREATE_NEW_POST({
-                content: input,
-                attachments
-            }).then(onCreateNewPost)
-                .finally(() => setInput(''))
+            const formData = new FormData()
+            attachments.forEach(file => {
+                formData.append('attachments', file)
+            })
+            formData.append('content', input)
+            api.CREATE_NEW_POST(formData).then(onCreateNewPost)
+                .finally(() => {
+                    setInput('')
+                    setAttachments([])
+                })
         }
     }
     const handleSelectFile = (e) => {
-        const files = [...e.target.files].forEach((file) => {
-            const fileReader = new FileReader()
-            fileReader.onload = e => {
-                console.log(e.target.result)
-                setAttachments(prev => [...prev, e.target.result])
-            }
-            fileReader.readAsDataURL(file)
-        })
+        setAttachments(prev => [...prev, ...e.target.files])
     }
     return (
         <div style={{ borderRadius: 8, background: 'white', width: '100%', marginBottom: 15, padding: '12px 16px 10px' }}>
@@ -97,22 +95,25 @@ const CreateNewPostComponent = ({ onCreateNewPost }) => {
                     <img height={24} width={24} src='https://static.xx.fbcdn.net/rsrc.php/v3/y7/r/_RWOIsUgWGL.png' />
                     &nbsp;Feeling/activity
                 </div>
-                <input hidden type='file' ref={fileInputRef} onChange={handleSelectFile} multiple accept="image/*" />
+                <input hidden type='file' ref={fileInputRef} onChange={handleSelectFile} multiple accept="image/*, video/mp4, video/*" />
             </div>
             <div style={{ display: 'flex' }}>
                 {
                     attachments.map((file, index) =>
-                        <FileItem key={index} data={file} />
+                        <FileItemPreview key={index} data={file} />
                     )
                 }
             </div>
         </div>
     )
-}
+}, () => true)
 
-const FileItem = ({ data }) => {
-
-    return (
-        <img src={data} style={{ borderRadius: 8, width: 64, height: 64 }} />
+const FileItemPreview = ({ data }) => {
+    const url = useMemo(() => URL.createObjectURL(data), [data])
+    if (data.type.startsWith('image/')) return (
+        <img src={url} style={{ borderRadius: 8, width: 64, height: 64 }} />
+    )
+    if (data.type.startsWith('video/')) return (
+        <video src={url} style={{ borderRadius: 8, width: 64, height: 64 }} />
     )
 }
