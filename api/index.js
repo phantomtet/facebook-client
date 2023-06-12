@@ -32,4 +32,5 @@ api.GET_MESSAGE_CHANNEL = (params) => axios.get('msgchannel', { params })
 api.GET_MORE_COMMENTS = (id, params) => axios.get(`post/${id}/comments`, { params })
 api.GET_POST_REACTION = (id, params) => axios.get(`post/${id}/reaction`, { params })
 api.UPLOAD = (data) => axios.post('upload', data)
+api.GET_USER_PROFILE = (id) => axios.get(`profile/${id}`)
 export default api

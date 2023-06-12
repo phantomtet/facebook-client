@@ -6,7 +6,7 @@ import dayjs from "dayjs"
 
 const PostDataContext = createContext()
 
-const Post = React.memo(({ data, onChange }) => {
+export const Post = React.memo(({ data, onChange }) => {
     return (
         <PostDataContext.Provider value={[data, onChange]}>
             <div className="post" style={{ display: 'flex', flexDirection: 'column' }}>
@@ -98,7 +98,7 @@ const PostAction = () => {
                 <div style={{ display: 'flex', alignItems: 'center' }}>
                     {
                         postData.reaction.sort((a, b) => b.count - a.count).filter((i, idx) => idx < 2 && i.count > 0).map((i, index) =>
-                            <img className="clickable" key={i.type} src={`/react-icon-${i.type}.png`} style={{ height: 18, width: 18, marginLeft: index == 1 && -4 }} />
+                            <img className="clickable" key={i.type} src={`/react-icon-${i.type}.png`} style={{ height: 20, zIndex: index == 0 && 1, border: '2px solid white', borderRadius: '100%', width: 20, marginLeft: index == 1 && -4 }} />
                         )
                     }
                     <span className="clickable underline-when-hover" style={{ marginLeft: 3, display: totalReaction ? '' : 'none' }}>{totalReaction}</span>
@@ -251,7 +251,7 @@ const FullReactionPopup = ({ children, onClick, value = 0 }) => {
         <>
             {typeof (children) == 'function' ? children(showPopup, hidePopup, () => handleClick(value || 1)) : children}
             <div onMouseEnter={showPopup} onMouseLeave={hidePopup}
-                ref={ref} className="react-icon-container" style={{ position: 'absolute', whiteSpace: 'nowrap', padding: 3, borderRadius: 30, alignItems: 'center', background: 'white', border: '1px solid var(--dark-gray)' }}>
+                ref={ref} className="react-icon-container" style={{ position: 'absolute', zIndex: 1, whiteSpace: 'nowrap', padding: 3, borderRadius: 30, alignItems: 'center', background: 'white', border: '1px solid var(--dark-gray)' }}>
                 <img onMouseUp={(e) => e.button == 0 && handleClick(1)} className="react-icon" src='/react-icon-1.png' />
                 <img onMouseUp={(e) => e.button == 0 && handleClick(2)} className="react-icon" src='/react-icon-2.png' />
                 <img onMouseUp={(e) => e.button == 0 && handleClick(3)} className="react-icon" src='/react-icon-3.png' />
