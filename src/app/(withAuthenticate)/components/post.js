@@ -1,26 +1,36 @@
-import React, { createContext, useCallback, useContext, useRef, useState } from "react"
+import React, { createContext, useCallback, useContext, useEffect, useRef, useState } from "react"
 import { useSelector } from "react-redux"
 import api from "../../../../api"
 import { getDifferentTime } from "@/misc/function"
 import dayjs from "dayjs"
+import ProfilePopup from "./common/profilePopup"
 
 const PostDataContext = createContext()
 
-export const Post = React.memo(({ data, onChange }) => {
+export const Post = React.memo(({ initialData }) => {
+    const [data, setData] = useState(initialData)
     return (
-        <PostDataContext.Provider value={[data, onChange]}>
-            <div className="post" style={{ display: 'flex', flexDirection: 'column' }}>
-                <div style={{ margin: '0 10px', display: 'flex', alignItems: 'center' }}>
-                    <img className="avatar" style={{ height: 40, width: 40 }} src={data.owner.avatar} />
-                    <div className="" style={{ width: '100%' }}>
-                        <div style={{ fontSize: 15, fontWeight: 600 }}>{data.owner.name}</div>
+        <PostDataContext.Provider value={[data, setData]}>
+            <div className="post card" style={{ display: 'flex', flexDirection: 'column' }}>
+                <div style={{ margin: '0 16px', display: 'flex', alignItems: 'center' }}>
+                    <ProfilePopup data={data.owner}>
+                        {(showPopup, hidePopup) =>
+                            <img onMouseEnter={showPopup} onMouseLeave={(hidePopup)} className="avatar" style={{ height: 40, width: 40 }} src={data.owner.avatar} />
+                        }
+                    </ProfilePopup>
+                    <div style={{ width: '100%' }}>
+                        <ProfilePopup data={data.owner}>
+                            {(showPopup, hidePopup) =>
+                                <div style={{ fontSize: 15, fontWeight: 600, cursor: 'pointer', display: 'inline-flex' }} className="underline-when-hover" onMouseEnter={showPopup} onMouseLeave={(hidePopup)} >{data.owner.name}</div>
+                            }
+                        </ProfilePopup>
                         <div style={{ fontSize: 13, color: 'var(--text-gray-color)' }} title={dayjs(data.createdAt).format('dddd, MMMM DD, YYYY [at] hh:mm A')}>{getDifferentTime(data.createdAt)}</div>
                     </div>
                     <div className="round-button darker-when-hover" style={{ cursor: 'pointer' }}>
                         <svg width="36" height="36" viewBox="-3.84 -3.84 31.68 31.68" fill="var(--secondary-icon)" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" strokeWidth={0} /><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round" /><g id="SVGRepo_iconCarrier"> <path d="M5 10C6.10457 10 7 10.8954 7 12C7 13.1046 6.10457 14 5 14C3.89543 14 3 13.1046 3 12C3 10.8954 3.89543 10 5 10Z" fill="var(--secondary-icon)" /> <path d="M12 10C13.1046 10 14 10.8954 14 12C14 13.1046 13.1046 14 12 14C10.8954 14 10 13.1046 10 12C10 10.8954 10.8954 10 12 10Z" fill="var(--secondary-icon)" /> <path d="M21 12C21 10.8954 20.1046 10 19 10C17.8954 10 17 10.8954 17 12C17 13.1046 17.8954 14 19 14C20.1046 14 21 13.1046 21 12Z" fill="var(--secondary-icon)" /> </g></svg>
                     </div>
                 </div>
-                <div className="content" style={{ margin: '10px', fontSize: 15 }}>
+                <div className="content" style={{ margin: '6px 16px', fontSize: 15 }}>
                     {data.content}
                 </div>
                 <div style={{ display: 'flex', flexWrap: 'wrap', width: '100%', marginBottom: 10, }}>
@@ -36,7 +46,7 @@ export const Post = React.memo(({ data, onChange }) => {
             </div>
         </PostDataContext.Provider >
     )
-}, (p, n) => p.data === n.data)
+})
 
 export default Post
 const PostAction = () => {
@@ -93,7 +103,7 @@ const PostAction = () => {
         }
     }
     return (
-        <div style={{ padding: '0 10px', fontSize: 15, fontWeight: 600, color: 'var(--secondary-icon)' }}>
+        <div style={{ padding: '0 16px', fontSize: 15, fontWeight: 600, color: 'var(--secondary-icon)' }}>
             <div style={{ fontWeight: 400, display: 'flex', justifyContent: 'space-between' }}>
                 <div style={{ display: 'flex', alignItems: 'center' }}>
                     {
@@ -126,7 +136,7 @@ const PostAction = () => {
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="#000000"><g id="SVGRepo_bgCarrier" strokeWidth={0} /><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round" /><g id="SVGRepo_iconCarrier"><defs><style dangerouslySetInnerHTML={{ __html: ".cls-1{fill:none;stroke:#020202;stroke-miterlimit:10;stroke-width:0.9120000000000001;}" }} /></defs><path className="cls-1" d="M1.5,5.3v9.54a3.82,3.82,0,0,0,3.82,3.82H7.23v2.86L13,18.66h5.73a3.82,3.82,0,0,0,3.82-3.82V5.3a3.82,3.82,0,0,0-3.82-3.82H5.32A3.82,3.82,0,0,0,1.5,5.3Z" /></g></svg>
                     <div style={{ marginLeft: 6, transition: 'none' }}>Comment</div>
                 </div>
-                <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }} className="setting-button">
+                <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }} className="setting-button hidden-under-350">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill='none'><g id="SVGRepo_bgCarrier" strokeWidth={0} /><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round" /><g id="SVGRepo_iconCarrier"> <path d="M20.7914 12.6075C21.0355 12.3982 21.1575 12.2936 21.2023 12.1691C21.2415 12.0598 21.2415 11.9403 21.2023 11.831C21.1575 11.7065 21.0355 11.6019 20.7914 11.3926L12.3206 4.13202C11.9004 3.77182 11.6903 3.59172 11.5124 3.58731C11.3578 3.58348 11.2101 3.6514 11.1124 3.77128C11 3.90921 11 4.18595 11 4.73942V9.03468C8.86532 9.40813 6.91159 10.4898 5.45971 12.1139C3.87682 13.8846 3.00123 16.176 3 18.551V19.163C4.04934 17.8989 5.35951 16.8766 6.84076 16.166C8.1467 15.5395 9.55842 15.1684 11 15.0706V19.2607C11 19.8141 11 20.0909 11.1124 20.2288C11.2101 20.3487 11.3578 20.4166 11.5124 20.4128C11.6903 20.4084 11.9004 20.2283 12.3206 19.8681L20.7914 12.6075Z" stroke="#000000" strokeWidth="0.8399999999999999" strokeLinecap="round" strokeLinejoin="round" /> </g></svg>
                     <div style={{ marginLeft: 6, transition: 'none' }}>Share</div>
                 </div>
@@ -184,7 +194,7 @@ const CommentList = () => {
 
     }
     return (
-        <div style={{ margin: '10px', display: 'flex', flexDirection: 'column-reverse' }}>
+        <div style={{ margin: '10px 16px', display: 'flex', flexDirection: 'column-reverse' }}>
             {
                 postData.latestComments.map(item =>
                     <SingleComment key={item._id} data={item} />
@@ -200,7 +210,12 @@ const SingleComment = ({ data }) => {
             <img className="avatar" src={data.owner.avatar} style={{ height: 32, width: 32, marginTop: 5 }} />
             <div>
                 <div style={{ padding: '8px 12px', borderRadius: 15, background: 'var(--light-gray)' }}>
-                    <div style={{ fontWeight: 600, fontSize: 13 }}>{data.owner.name}</div>
+                    <ProfilePopup data={data.owner}>
+                        {(showPopup, hidePopup) =>
+                            <div className="underline-when-hover" onMouseEnter={showPopup} onMouseLeave={(hidePopup)} style={{ fontWeight: 600, fontSize: 13 }}>{data.owner.name}</div>
+                        }
+                    </ProfilePopup>
+
                     <div style={{ fontSize: 15, wordBreak: 'break-word' }}>{data.content}</div>
                 </div>
 
@@ -245,8 +260,14 @@ const FullReactionPopup = ({ children, onClick, value = 0 }) => {
         document.removeEventListener('click', checkIfClickOutSide)
         ref.current.classList.remove('show')
         onClick?.(type)
-        console.log(type, value)
     }
+    useEffect(() => {
+        return () => {
+            clearTimeout(timeoutRef.current)
+            document.removeEventListener('click', checkIfClickOutSide)
+        }
+    }, [])
+
     return (
         <>
             {typeof (children) == 'function' ? children(showPopup, hidePopup, () => handleClick(value || 1)) : children}

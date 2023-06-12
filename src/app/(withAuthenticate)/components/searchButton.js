@@ -4,6 +4,7 @@ import usePopup from "@/hook/usePopup";
 import { sleep } from "@/misc/function";
 import { useEffect, useState } from "react";
 import api from "../../../../api";
+import Link from "next/link";
 
 
 const SearchButton = () => {
@@ -55,12 +56,12 @@ export default SearchButton
 
 const SearchItem = ({ data }) => {
     return (
-        <li style={{ display: 'flex', alignItems: 'center' }}>
+        <Link href={data._id} className="setting-button" style={{ display: 'flex', alignItems: 'center', padding: 8 }}>
             <img className="avatar" style={{ marginRight: 12 }} src={data.avatar} />
-            <div>
+            <div >
                 <div>{data.name}</div>
                 <div></div>
             </div>
-        </li>
+        </Link>
     )
 }

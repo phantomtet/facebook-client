@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import useGetFeed from "@/hook/useGetFeed";
 
 const Feed = () => {
-    const { feedData, setFeedData, handleChangePostData } = useGetFeed()
+    const { feedData, setFeedData } = useGetFeed()
     const handleCreateNewPost = (res) => {
         setFeedData(prev => [res.data, ...prev])
     }
@@ -15,8 +15,8 @@ const Feed = () => {
         <div className="feed-container">
             <CreateNewPostComponent onCreateNewPost={handleCreateNewPost} />
             {
-                feedData.map(item =>
-                    <Post key={item._id} data={item} onChange={handleChangePostData} />
+                feedData.map((item, index) =>
+                    <Post key={item._id} initialData={item} />
                 )
             }
         </div>
@@ -48,7 +48,7 @@ const CreateNewPostComponent = React.memo(({ onCreateNewPost }) => {
         setAttachments(prev => [...prev, ...e.target.files])
     }
     return (
-        <div style={{ borderRadius: 8, background: 'white', width: '100%', marginBottom: 15, padding: '12px 16px 10px' }}>
+        <div className="card" style={{ borderRadius: 8, background: 'white', width: '100%', marginBottom: 15, padding: '12px 16px 10px' }}>
             <div style={{ display: 'flex', alignItems: 'center' }}>
                 <img className="avatar" src={user.avatar} />
                 <input onKeyDown={handleKeyDown} value={input} onChange={e => setInput(e.target.value)} placeholder={'What\'s on your mind, ' + user.name + '?'} />
@@ -78,7 +78,7 @@ const CreateNewPostComponent = React.memo(({ onCreateNewPost }) => {
             </div>
         </div>
     )
-}, () => true)
+})
 
 const FileItemPreview = ({ data }) => {
     const url = useMemo(() => URL.createObjectURL(data), [data])

@@ -11,6 +11,8 @@
 
 :root {
   --primary-color: #1877f2;
+  --primary-color-hover: #5196f0;
+  --primary-color-active: #3b88ee;
   --secondary-color: #42b72a;
   --secondary-icon: #65676b;
   --light-gray: #f0f2f5;
@@ -26,6 +28,11 @@
   --icon-inactive: #bcc0c4;
   --accent: #1876f2;
   --highlight-bg: #e7f3ff;
+
+}
+
+.card {
+  box-shadow: rgba(0, 0, 0, 0.1) 1px 1px 3px 0.5px;
 }
 
 ul {
@@ -127,13 +134,26 @@ body::-webkit-scrollbar-thumb:hover {
   transform: scale(1);
 }
 
+.popup {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.popup.show {
+  display: inherit;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: visible;
+}
+
 .react-icon-container {
   /* display: none; */
   bottom: 100%;
   opacity: 0;
   visibility: hidden;
   transition: none;
-  pointer-events: visible;
+  pointer-events: none;
 }
 
 .react-icon-container.show {
@@ -188,6 +208,19 @@ body::-webkit-scrollbar-thumb:hover {
   background: var(--darker-gray) !important;
 }
 
+.setting-button.primary {
+  background: var(--primary-color) !important;
+  color: white;
+}
+
+.setting-button.primary:hover {
+  background: var(--primary-color-hover) !important;
+}
+
+.setting-button.primary:active {
+  background: var(--primary-color-active) !important;
+}
+
 .hidden {
   display: none;
 }
@@ -226,6 +259,30 @@ body::-webkit-scrollbar-thumb:hover {
 
 @media (max-width: 600px) {
   .hidden-under-600 {
+    display: none !important;
+  }
+}
+
+@media (max-width: 550px) {
+  .hidden-under-550 {
+    display: none !important;
+  }
+}
+
+@media (max-width: 450px) {
+  .hidden-under-450 {
+    display: none !important;
+  }
+}
+
+@media (max-width: 350px) {
+  .hidden-under-350 {
+    display: none !important;
+  }
+}
+
+@media (max-width: 250px) {
+  .hidden-under-250 {
     display: none !important;
   }
 }

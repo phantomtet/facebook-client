@@ -30,6 +30,7 @@ const LeftBar = () => {
                     <i style={{ height: 36, width: 36, marginRight: 8, backgroundImage: 'url(/leftbar-icon.png)', backgroundPosition: '0 -518px' }} />
                     Watch
                 </Link>
+                <div className="divider" style={{ marginLeft: 8 }} />
             </div>
 
             <div style={{ fontSize: 13, color: 'var(--secondary-icon)', width: '100%', wordBreak: 'break-word', padding: 16, fontWeight: 400, }}>

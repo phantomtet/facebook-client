@@ -4,11 +4,11 @@ import Post from "../components/post"
 import useGetFeed from "@/hook/useGetFeed"
 
 export default function ({ params }) {
-    const { feedData, handleChangePostData } = useGetFeed({ fromUserId: params.id })
+    const { feedData } = useGetFeed({ fromUserId: params.id })
     return (
         <div style={{ paddingTop: 16, display: 'flex', maxWidth: 940 }}>
-            <div about="left-div" style={{ position: 'sticky', bottom: 0, height: '100%', alignSelf: 'flex-end' }}>
-                <div align='left' about="intro" style={{ background: 'white', padding: '20px 0 20px', marginBottom: 16, width: 360, borderRadius: 8 }}>
+            <div className="hidden-under-900" about="left-div" style={{ position: 'sticky', bottom: 0, height: '100%', alignSelf: 'flex-end' }}>
+                <div align='left' className="card" about="intro" style={{ background: 'white', padding: '20px 0 20px', marginBottom: 16, width: 360, borderRadius: 8 }}>
                     <div align='left' style={{ padding: '0 16px', fontWeight: 700, fontSize: 20 }}>Intro</div>
                     <div align='center' style={{ paddingTop: 20, color: 'var(--secondary-icon)' }}>
                         Default intro
@@ -24,7 +24,7 @@ export default function ({ params }) {
                     </div>
 
                 </div>
-                <div align='left' about="photos" style={{ background: 'white', padding: '20px 0 20px', marginBottom: 16, width: 360, borderRadius: 8 }}>
+                <div align='left' className="card" about="photos" style={{ background: 'white', padding: '20px 0 20px', marginBottom: 16, width: 360, borderRadius: 8 }}>
                     <div align='left' style={{ padding: '0 16px', fontWeight: 700, fontSize: 20 }}>Photos</div>
                     <div align='center' style={{ marginTop: 10 }}>
                         {
@@ -34,7 +34,7 @@ export default function ({ params }) {
                         }
                     </div>
                 </div>
-                <div align='left' about="friends" style={{ background: 'white', padding: '20px 0 20px', marginBottom: 16, width: 360, borderRadius: 8 }}>
+                <div align='left' className="card" about="friends" style={{ background: 'white', padding: '20px 0 20px', marginBottom: 16, width: 360, borderRadius: 8 }}>
                     <div align='left' style={{ padding: '0 16px', fontWeight: 700, fontSize: 20 }}>Friends</div>
                     <div align='center' style={{ marginTop: 10 }}>
                         {
@@ -47,9 +47,11 @@ export default function ({ params }) {
             </div>
             <div about="right-div" align='left' style={{ width: '100%', marginLeft: 16 }}>
                 {
-                    feedData.map(item =>
-                        <Post key={item._id} data={item} onChange={handleChangePostData} />
+                    feedData.length ? feedData.map(item =>
+                        <Post key={item._id} initialData={item} />
                     )
+                        :
+                        <div>This user has no post yet</div>
                 }
             </div>
         </div>

@@ -6,7 +6,6 @@
 .navigate-container {
     z-index: var(--z-index-navigate-bar);
     background: white;
-    font-size: 13px;
     min-height: 56px;
     max-height: 56px;
     position: sticky;
@@ -43,7 +42,6 @@
 
 .search-button-placeholder {
     margin-left: 5px;
-    font-size: .85rem;
     font-weight: 200;
     display: none;
 }
@@ -106,7 +104,6 @@
     background: var(--light-gray);
     width: 240px;
     padding-left: 20px;
-    font-size: .9375rem;
 }
 
 .search-popup.open {
@@ -184,7 +181,6 @@
     border-radius: 8px;
     margin-bottom: 16px;
     padding: 10px 0 5px 0;
-    box-shadow: rgba(150, 150, 150, 0.25) 0px 1px 2px 0.25px;
 }
 
 .homepage-container .sidebar {

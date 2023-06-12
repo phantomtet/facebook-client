@@ -3,16 +3,16 @@ import useSavingPreviousState from "./useSavingPreviousState"
 import api from "../../api"
 
 const useGetFeed = (params = {}) => {
-    const [feedData, setFeedData] = useSavingPreviousState([], 'feedData')
+    const [feedData, setFeedData] = useState([])
     const [isLoading, setIsLoading] = useState(!feedData.length)
     const lastFetchDataTimestampRef = useRef()
 
-    const handleChangePostData = (data) => {
-        const dataIndex = feedData.findIndex(i => i._id == data._id)
-        let newFeedData = [...feedData]
-        newFeedData[dataIndex] = data
-        setFeedData(newFeedData)
-    }
+    // const handleChangePostData = (data) => {
+    //     const dataIndex = feedData.findIndex(i => i._id == data._id)
+    //     let newFeedData = [...feedData]
+    //     newFeedData[dataIndex] = data
+    //     setFeedData(newFeedData)
+    // }
     const getFeed = () => {
         let sortedData = [...feedData].sort((a, b) => Date(b.createdAt) - Date(a.createdAt))
         api.GET_FEED(
@@ -36,6 +36,6 @@ const useGetFeed = (params = {}) => {
         if (isLoading) getFeed()
     }, [isLoading])
 
-    return { feedData, setFeedData, handleChangePostData, getFeed }
+    return { feedData, setFeedData, getFeed }
 }
 export default useGetFeed
