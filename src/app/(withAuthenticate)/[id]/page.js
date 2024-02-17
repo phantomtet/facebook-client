@@ -6,7 +6,9 @@ import useGetFeed from "@/hook/useGetFeed";
 export default function ({ params }) {
   const { feedData } = useGetFeed({ fromUserId: params.id });
   return (
-    <div style={{ paddingTop: 16, display: "flex", maxWidth: 940 }}>
+    <div
+      style={{ paddingTop: 16, display: "flex", maxWidth: 940, margin: "auto" }}
+    >
       <div
         className="hidden-under-900"
         about="left-div"
