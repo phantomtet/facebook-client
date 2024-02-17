@@ -1,7 +1,7 @@
 "use client";
 
+import useGetFeed from "../../../hook/useGetFeed";
 import Post from "../components/post";
-import useGetFeed from "@/hook/useGetFeed";
 
 export default function ({ params }) {
   const { feedData } = useGetFeed({ fromUserId: params.id });
