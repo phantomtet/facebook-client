@@ -12,6 +12,7 @@ import { getDifferentTime } from "@/misc/function";
 import dayjs from "dayjs";
 import ProfilePopup from "./common/profilePopup";
 import { useForm } from "react-hook-form";
+import { Avatar } from "antd";
 
 const PostDataContext = createContext();
 
@@ -26,34 +27,24 @@ export const Post = React.memo(({ initialData }) => {
         <div
           style={{ margin: "0 16px", display: "flex", alignItems: "center" }}
         >
-          <ProfilePopup data={data.owner}>
-            {(showPopup, hidePopup) => (
-              <img
-                onMouseEnter={showPopup}
-                onMouseLeave={hidePopup}
-                className="avatar"
-                style={{ height: 40, width: 40 }}
-                src={data.owner.avatar}
-              />
-            )}
-          </ProfilePopup>
+          <img
+            className="avatar"
+            style={{ height: 40, width: 40 }}
+            src={data.owner.avatar}
+          />
           <div style={{ width: "100%" }}>
-            <ProfilePopup data={data.owner}>
-              {(showPopup, hidePopup) => (
-                <div
-                  style={{
-                    fontSize: 15,
-                    fontWeight: 600,
-                    cursor: "pointer",
-                    display: "inline-flex",
-                  }}
-                  className="underline-when-hover"
-                  onMouseEnter={showPopup}
-                  onMouseLeave={hidePopup}
-                >
-                  {data.owner.name}
-                </div>
-              )}
+            <ProfilePopup userData={data.owner}>
+              <div
+                style={{
+                  fontSize: 15,
+                  fontWeight: 600,
+                  cursor: "pointer",
+                  display: "inline-flex",
+                }}
+                className="underline-when-hover"
+              >
+                {data.owner.name}
+              </div>
             </ProfilePopup>
             <div
               style={{ fontSize: 13, color: "var(--text-gray-color)" }}
@@ -506,7 +497,7 @@ const CommentInput = () => {
       api
         .COMMENT({
           postId: postData._id,
-          content: input,
+          content: getValues("content"),
           attachments,
         })
         .then((res) => {
@@ -521,10 +512,10 @@ const CommentInput = () => {
         });
   };
   return (
-    <div style={{ margin: "0 10px", display: "flex" }}>
+    <div style={{ margin: "0 16px", display: "flex" }}>
       <img
-        className="avatar"
-        style={{ height: 32, width: 32, marginTop: 2 }}
+        className="avatar "
+        style={{ height: 32, width: 32, marginTop: 2, flexShrink: 0 }}
         src={user.avatar}
         alt=""
       />
@@ -638,7 +629,7 @@ const SingleComment = ({ data }) => {
       <img
         className="avatar"
         src={data.owner.avatar}
-        style={{ height: 32, width: 32, marginTop: 5 }}
+        style={{ height: 32, width: 32, marginTop: 5, flexShrink: 0 }}
       />
       <div>
         <div
@@ -648,19 +639,14 @@ const SingleComment = ({ data }) => {
             background: "var(--light-gray)",
           }}
         >
-          <ProfilePopup data={data.owner}>
-            {(showPopup, hidePopup) => (
-              <div
-                className="underline-when-hover"
-                onMouseEnter={showPopup}
-                onMouseLeave={hidePopup}
-                style={{ fontWeight: 600, fontSize: 13 }}
-              >
-                {data.owner.name}
-              </div>
-            )}
+          <ProfilePopup userData={data.owner}>
+            <div
+              className="underline-when-hover"
+              style={{ fontWeight: 600, fontSize: 13 }}
+            >
+              {data.owner.name}
+            </div>
           </ProfilePopup>
-
           <div style={{ fontSize: 15, wordBreak: "break-word" }}>
             {data.content}
           </div>

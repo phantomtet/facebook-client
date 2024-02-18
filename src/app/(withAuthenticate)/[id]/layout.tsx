@@ -4,16 +4,28 @@ import { useLayoutEffect, useState } from "react";
 import api from "../../../../api";
 import { usePathname } from "next/navigation";
 import AvatarUpload from "./components/avatar-upload";
+import { useSelector } from "react-redux";
+import { I_RootState } from "@/redux";
+import ProfilePopup from "../components/common/profilePopup";
 
 const config = ["about", "followers", "photos", "videos", "groups"];
 
 export default function Layout({ children, params }) {
+  const user = useSelector((state: I_RootState) => state.user.value);
   const [userData, setUserData] = useState<I_User>();
+  const [friends, setFriends] = useState<I_User[]>([]);
   const pathname = usePathname();
+
+  const fetchData = async () => {
+    const [friends, profile] = await Promise.all([
+      api.get(`profile/${params.id}/relative-friends`),
+      api.get(`profile/${params.id}`),
+    ]);
+    setFriends(friends.data);
+    setUserData(profile.data);
+  };
   useLayoutEffect(() => {
-    api.GET_USER_PROFILE(params.id).then((res) => {
-      setUserData(res.data);
-    });
+    fetchData();
   }, []);
   if (userData)
     return (
@@ -51,7 +63,10 @@ export default function Layout({ children, params }) {
               marginBottom: -30,
             }}
           >
-            <AvatarUpload userData={userData} />
+            <AvatarUpload
+              userData={userData}
+              disable={userData._id !== user._id}
+            />
             <div
               style={{
                 marginLeft: 30,
@@ -67,7 +82,7 @@ export default function Layout({ children, params }) {
                 {userData.name}
               </div>
               <div style={{ fontWeight: 600, color: "var(--secondary-icon)" }}>
-                2000 friends. 19999 following
+                {userData.totalFriends} friends
               </div>
               <div
                 style={{
@@ -78,24 +93,28 @@ export default function Layout({ children, params }) {
                   margin: "6px 0",
                 }}
               >
-                {[1, 2, 3, 4].map((i) => (
-                  <img
-                    key={i}
-                    src="/react-icon-7.png"
-                    style={{
-                      height: 32,
-                      width: 32,
-                      borderRadius: "100%",
-                      marginLeft: -6,
-                      border: "2px solid white",
-                    }}
-                  />
+                {friends.map((i) => (
+                  <ProfilePopup userData={i} key={i._id}>
+                    <img
+                      src={i.avatar}
+                      style={{
+                        height: 32,
+                        width: 32,
+                        borderRadius: "100%",
+                        marginLeft: -6,
+                        border: "2px solid white",
+                      }}
+                    />
+                  </ProfilePopup>
                 ))}
               </div>
             </div>
           </div>
         </div>
-        <div className="divider" style={{ marginBottom: 0, maxWidth: 940 }} />
+        <div
+          className="divider"
+          style={{ marginBottom: 0, maxWidth: 940, margin: "20px auto 0 auto" }}
+        />
         <div
           style={{
             position: "sticky",

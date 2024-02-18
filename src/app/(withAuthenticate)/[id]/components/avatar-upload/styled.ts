@@ -4,8 +4,9 @@ const StyledDiv = styled.div`
   position: relative;
   .__avatar {
     &:hover {
-      filter: brightness(120%);
+      filter: brightness(105%);
     }
+    object-fit: cover;
     cursor: pointer;
     outline: 5px solid white;
     height: 168px;

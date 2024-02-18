@@ -3,10 +3,9 @@
   padding: 0;
   margin: 0;
   font-size: inherit;
-  transition: 0.25s ease all;
   user-select: none;
   -webkit-user-drag: none;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 :root {
@@ -19,18 +18,16 @@
   --e5: #e5e5e5;
   --gray: #e4e6eb;
   --dark-gray: #d7d9df;
-  --darker-gray: #CCCCCC;
+  --darker-gray: #cccccc;
   --z-index-loading-screen: 110;
   --z-index-popup: 100;
   --z-index-navigate-bar: 90;
   --text-black-color: #050505;
-  --text-gray-color: #65676B;
+  --text-gray-color: #65676b;
   --icon-inactive: #bcc0c4;
   --accent: #1876f2;
   --highlight-bg: #e7f3ff;
-
 }
-
 .card {
   box-shadow: rgba(0, 0, 0, 0.1) 1px 1px 3px 0.5px;
 }
@@ -38,7 +35,9 @@
 ul {
   list-style: none;
 }
-
+img {
+  object-fit: cover;
+}
 input {
   outline: none;
   border: none;
@@ -95,16 +94,14 @@ body::-webkit-scrollbar-thumb:hover {
 }
 
 .darker-when-hover:active {
-  background: var(--gray)
+  background: var(--gray);
 }
 
 .use-auto-hide-scrollbar:hover {
   overflow-y: overlay;
-
 }
 
 .use-auto-hide-scrollbar {
-
   overflow-y: hidden;
   padding-right: 15px;
 }
@@ -226,7 +223,7 @@ body::-webkit-scrollbar-thumb:hover {
 }
 
 .hover-show-hidden:hover .hidden {
-  display: initial
+  display: initial;
 }
 
 .primary-text {
@@ -239,11 +236,11 @@ body::-webkit-scrollbar-thumb:hover {
 
 @media (max-width: 1100px) {
   .hidden-under-1100 {
-    display: none !important
+    display: none !important;
   }
 
   .feed-container {
-    margin-left: 30px
+    margin-left: 30px;
   }
 }
 

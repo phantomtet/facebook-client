@@ -1,196 +1,191 @@
 .homepage-container {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 
 .navigate-container {
-    z-index: var(--z-index-navigate-bar);
-    background: white;
-    min-height: 56px;
-    max-height: 56px;
-    position: sticky;
-    left: 0;
-    top: 0;
-    width: 100%;
-    box-shadow: rgba(150, 150, 150, 0.25) 1px 0px 10px 0.25px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 16px;
+  z-index: var(--z-index-navigate-bar);
+  background: white;
+  min-height: 56px;
+  max-height: 56px;
+  position: sticky;
+  left: 0;
+  top: 0;
+  width: 100%;
+  box-shadow: rgba(150, 150, 150, 0.25) 1px 0px 10px 0.25px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
 }
 
 .navigate-group-1 {
-    display: flex;
+  display: flex;
 }
 
 .search-button {
-    display: flex;
-    align-items: center;
-    padding-left: 12px;
-    margin-top: 2px;
-    background: var(--light-gray);
-    margin-left: 6px;
-    min-height: 40px;
-    min-width: 40px;
-    max-height: 40px;
-    max-width: 240px;
-    width: 100%;
-    cursor: pointer;
-    border-radius: 20px;
-    cursor: text;
+  display: flex;
+  align-items: center;
+  padding-left: 12px;
+  margin-top: 2px;
+  background: var(--light-gray);
+  margin-left: 6px;
+  min-height: 40px;
+  min-width: 40px;
+  max-height: 40px;
+  max-width: 240px;
+  width: 100%;
+  cursor: pointer;
+  border-radius: 20px;
+  cursor: text;
 }
 
 .search-button-placeholder {
-    margin-left: 5px;
-    font-weight: 200;
-    display: none;
+  margin-left: 5px;
+  font-weight: 200;
+  display: none;
 }
 
 @media (min-width: 1250px) {
-    .search-button {
-        width: 240px;
-    }
+  .search-button {
+    width: 240px;
+  }
 
-    .search-button-placeholder {
-        display: initial
-    }
+  .search-button-placeholder {
+    display: initial;
+  }
 }
 
 .search-popup {
-    opacity: 0;
-    visibility: hidden;
-    padding: 8px 12px;
-    top: 0;
-    left: 0;
-    position: fixed;
-    min-width: 320px;
-    max-width: 320px;
-    max-height: 500px;
-    background: white;
-    box-shadow: rgba(150, 150, 150, 0.25) 1px 1px 10px 0.25px;
-    z-index: var(--z-index-popup)
+  opacity: 0;
+  visibility: hidden;
+  padding: 8px 12px;
+  top: 0;
+  left: 0;
+  position: fixed;
+  min-width: 320px;
+  max-width: 320px;
+  max-height: 500px;
+  background: white;
+  box-shadow: rgba(150, 150, 150, 0.25) 1px 1px 10px 0.25px;
+  z-index: var(--z-index-popup);
 }
 
-.search-popup>.div1 {
-    display: flex;
-    transition: none;
+.search-popup > .div1 {
+  display: flex;
+  transition: none;
 }
 
 .search-popup .go-back-button {
-    min-width: 40px;
-    max-width: 40px;
-    min-height: 40px;
-    max-height: 40px;
-    margin-right: 8px;
-    cursor: pointer;
-
+  min-width: 40px;
+  max-width: 40px;
+  min-height: 40px;
+  max-height: 40px;
+  margin-right: 8px;
+  cursor: pointer;
 }
 
 .search-popup .go-back-button.setting-button {
-    background: rgba(150, 150, 150, 0.15)
+  background: rgba(150, 150, 150, 0.15);
 }
 
 .round-button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100%;
 }
 
 .search-popup .search-input {
-    outline: none;
-    border: none;
-    border-radius: 20px;
-    background: var(--light-gray);
-    width: 240px;
-    padding-left: 20px;
+  outline: none;
+  border: none;
+  border-radius: 20px;
+  background: var(--light-gray);
+  width: 240px;
+  padding-left: 20px;
 }
 
 .search-popup.open {
-    visibility: visible;
-    opacity: 1;
+  visibility: visible;
+  opacity: 1;
 }
 
 .avatar {
-    height: 30px;
-    width: 30px;
-    margin-right: 8px;
-    object-fit: contain;
-    border: 1px solid var(--dark-gray);
-    border-radius: 100%;
-    position: relative;
-    cursor: pointer;
+  height: 30px;
+  width: 30px;
+  margin-right: 8px;
+  border: 1px solid var(--dark-gray);
+  border-radius: 100%;
+  position: relative;
+  cursor: pointer;
 }
 
 .button-container {
-    position: relative;
+  position: relative;
 }
 
 .avatar:active {
-    transform: scale(0.90)
+  transform: scale(0.9);
 }
 
 .avatar-popup-container {
-    max-height: 70vh;
-    overflow: hidden auto;
-    visibility: hidden;
-    opacity: 0;
-    background: white;
-    border-radius: 8px;
-    box-shadow: rgba(150, 150, 150, 0.25) 1px 0px 10px 0.25px;
-    padding: 5px;
-    position: fixed;
-    right: 10px;
-    top: 56px;
-    width: auto;
-    /* max-width: calc(100vw - 40px); */
+  max-height: 70vh;
+  overflow: hidden auto;
+  visibility: hidden;
+  opacity: 0;
+  background: white;
+  border-radius: 8px;
+  box-shadow: rgba(150, 150, 150, 0.25) 1px 0px 10px 0.25px;
+  padding: 5px;
+  position: fixed;
+  right: 10px;
+  top: 56px;
+  width: auto;
+  /* max-width: calc(100vw - 40px); */
 }
 
 .avatar-popup-container.open {
-    visibility: visible;
-    opacity: 1;
+  visibility: visible;
+  opacity: 1;
 }
 
-.avatar-popup-container>.menu-0.hide {
-    overflow-y: hidden;
-    transform: translateX(-100%);
-    visibility: hidden;
-    opacity: 0;
-    height: 0;
+.avatar-popup-container > .menu-0.hide {
+  overflow-y: hidden;
+  transform: translateX(-100%);
+  visibility: hidden;
+  opacity: 0;
+  height: 0;
 }
 
-.avatar-popup-container>.menu-1.hide {
-    overflow-y: hidden;
-    transform: translateX(100%);
-    visibility: hidden;
-    opacity: 0;
-    height: 0;
-
+.avatar-popup-container > .menu-1.hide {
+  overflow-y: hidden;
+  transform: translateX(100%);
+  visibility: hidden;
+  opacity: 0;
+  height: 0;
 }
-
-
 
 .feed-container {
-    padding-top: 20px;
-    max-width: 680px;
-    width: 100%;
+  padding-top: 20px;
+  max-width: 680px;
+  width: 100%;
 }
 
 .post {
-    background: white;
-    border-radius: 8px;
-    margin-bottom: 16px;
-    padding: 10px 0 5px 0;
+  background: white;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  padding: 10px 0 5px 0;
 }
 
 .homepage-container .sidebar {
-    padding-top: 20px;
-    padding-left: 8px;
-    position: sticky;
-    top: 56px;
-    min-width: 360px;
-    max-width: 360px;
-    height: calc(100vh - 56px);
-    display: flex;
-    flex-direction: column;
+  padding-top: 20px;
+  padding-left: 8px;
+  position: sticky;
+  top: 56px;
+  min-width: 360px;
+  max-width: 360px;
+  height: calc(100vh - 56px);
+  display: flex;
+  flex-direction: column;
 }
