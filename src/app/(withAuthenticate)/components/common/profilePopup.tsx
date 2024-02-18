@@ -233,7 +233,9 @@ const ProfilePopup = (props: I_Props) => {
       }
       {...props}
     >
-      <Link href={`/${props.userData?._id}`}>{props.children}</Link>
+      <Link href={`/${props.userData?._id}`} style={{ display: "inline-flex" }}>
+        {props.children}
+      </Link>
     </Popover>
   );
 };
